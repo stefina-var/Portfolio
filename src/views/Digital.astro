@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PdfLinks from '../components/PdfLinks.astro';
 import { getContent, getLang, l } from '../i18n';
@@ -13,7 +14,7 @@ const items = projects.filter((p) => p.category === 'digital' || p.alsoDigital);
 <Base title={discipline.name} description={discipline.description}>
   <div class="wrap">
     <header class="page-head">
-      <p class="eyebrow"><a href={l(lang, '/work')}>{ui.work}</a> / {ui.digitalCrumb}</p>
+      <Breadcrumb href={l(lang, '/work')} label={ui.work} current={ui.digitalCrumb} />
       <h1 class="page-title">{discipline.name}</h1>
       <p class="lead">{discipline.description}</p>
     </header>

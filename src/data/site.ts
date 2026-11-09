@@ -176,5 +176,15 @@ export const site = {
       'Project Management',
       'Teamwork',
     ],
+    // Icons available: fitness, tennis, running, games, drawing, workshops, coffee
+    interests: [
+      { icon: 'fitness', label: 'Fitness' },
+      { icon: 'tennis', label: 'Tennis' },
+      { icon: 'running', label: 'Running' },
+      { icon: 'games', label: 'Board games' },
+      { icon: 'drawing', label: 'Drawing' },
+      { icon: 'workshops', label: 'All kinds of workshops' },
+      { icon: 'coffee', label: 'Coffee lover' },
+    ],
   },
 };

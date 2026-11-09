@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'globe' | 'sun' | 'moon' | 'download';
+  name: string;
 }
 
 const { name } = Astro.props;
@@ -20,5 +20,40 @@ const { name } = Astro.props;
     </>
   )}
   {name === 'download' && <path d="M12 4v11.500M7 10.500l5 5 5-5M4.500 20h15" />}
+  {name === 'fitness' && <path d="M6.500 6.500v11M3.500 9v6M17.500 6.500v11M20.500 9v6M6.500 12h11" />}
+  {name === 'tennis' && (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M5.600 5.700c3.500 3.500 3.500 9.100 0 12.600M18.400 5.700c-3.500 3.500-3.500 9.100 0 12.600" />
+    </>
+  )}
+  {name === 'running' && (
+    <path d="M3 17c0-1 .5-2 1-3l1-5.500 3 1.500c.5 2 2 3 4 3.500l5.500 1.500c2 .5 3.500 1.500 3.500 3.500H4.500C3.700 18.500 3 18 3 17zM10.500 11.500 12 10M13 13l1.500-1.500" />
+  )}
+  {name === 'games' && (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="3.500" />
+      <circle cx="8.500" cy="8.500" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15.500" cy="8.500" r="1" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="8.500" cy="15.500" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15.500" cy="15.500" r="1" fill="currentColor" stroke="none" />
+    </>
+  )}
+  {name === 'drawing' && (
+    <path d="M4 20l1-4.500L16 4.500a2.100 2.100 0 0 1 3 0l.5.500a2.100 2.100 0 0 1 0 3L8.500 19zM14.500 6l3.500 3.500" />
+  )}
+  {name === 'workshops' && (
+    <>
+      <path d="M12 3a9 9 0 1 0 0 18c1.500 0 2-1 2-2s-.5-1.500-.5-2.500 1-2 2-2H18a3 3 0 0 0 3-3c0-4.500-4-8.500-9-8.500z" />
+      <circle cx="7.500" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="10" cy="7.500" r="1" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="7.500" r="1" fill="currentColor" stroke="none" />
+    </>
+  )}
+  {name === 'coffee' && (
+    <path d="M5 9.500h12V15a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5zM17 11h1.500a2.500 2.500 0 0 1 0 5H17M8.500 3.500c-.7 1 .7 2 0 3M12.500 3.500c-.7 1 .7 2 0 3" />
+  )}
+  {name === 'back' && <path d="M19 12H5M11 6l-6 6 6 6" />}
   {name === 'moon' && <path d="M20 14.500A8.500 8.500 0 0 1 9.500 4a8.500 8.500 0 1 0 10.500 10.500z" />}
 </svg>

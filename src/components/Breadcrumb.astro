@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  label: string;
+  current: string;
+}
+
+const { href, label, current } = Astro.props;
+---
+
+<p class="eyebrow crumbs">
+  <a href={href}><Icon name="back" />{label}</a>
+  <span aria-hidden="true">/</span>
+  <span>{current}</span>
+</p>

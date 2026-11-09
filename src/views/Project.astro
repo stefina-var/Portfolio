@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import Media from '../components/Media.astro';
 import { getContent, getLang, l } from '../i18n';
 import type { Project } from '../data/projects';
@@ -35,7 +36,7 @@ const sections = [
 <Base title={project.title} description={project.summary}>
   <article class={`t-${project.category}`}>
     <header class="wrap page-head">
-      <p class="eyebrow"><a href={l(lang, '/work')}>{ui.work}</a> / {project.disciplines[0]}</p>
+      <Breadcrumb href={l(lang, '/work')} label={ui.work} current={project.disciplines[0]} />
       {project.sample && <p class="badge">{ui.sampleLong}</p>}
       <h1 class="page-title">{project.title}</h1>
       <p class="lead">{project.summary}</p>

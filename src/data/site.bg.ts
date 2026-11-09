@@ -150,5 +150,14 @@ export const siteBg: typeof site = {
       'Управление на проекти',
       'Работа в екип',
     ],
+    interests: [
+      { icon: 'fitness', label: 'Фитнес' },
+      { icon: 'tennis', label: 'Тенис' },
+      { icon: 'running', label: 'Бягане' },
+      { icon: 'games', label: 'Бордни игри' },
+      { icon: 'drawing', label: 'Рисуване' },
+      { icon: 'workshops', label: 'Всякакви работилници' },
+      { icon: 'coffee', label: 'Кафеманка' },
+    ],
   },
 };

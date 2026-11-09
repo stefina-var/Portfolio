@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import Media from '../components/Media.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getContent, getLang, l, readTime } from '../i18n';
@@ -19,7 +20,7 @@ const details = [article.date, readTime(article, ui)].filter(Boolean).join(' · 
 <Base title={article.title} description={article.excerpt}>
   <article class="wrap">
     <div class="article page-head">
-      <p class="eyebrow"><a href={l(lang, '/journal')}>{ui.journal}</a> / {article.category}</p>
+      <Breadcrumb href={l(lang, '/journal')} label={ui.journal} current={article.category} />
       {article.sample && <p class="badge">{ui.sampleEntryLong}</p>}
       <h1>{article.title}</h1>
       <p class="meta post-byline">{site.name} · {details}</p>
@@ -33,8 +34,8 @@ const details = [article.date, readTime(article, ui)].filter(Boolean).join(' · 
     {article.images && article.images.length > 0 && (
       <div class="article article-wide post-images">
         {article.images.map((image) => (
-          <figure>
-            <Media label="Cover image" ratio="3/2" src={image.src} alt={image.alt} />
+          <figure class={image.wide ? 'wide' : undefined}>
+            <Media label="Cover image" ratio={image.ratio ?? '3/2'} src={image.src} alt={image.alt} />
             {image.caption && <figcaption>{image.caption}</figcaption>}
           </figure>
         ))}

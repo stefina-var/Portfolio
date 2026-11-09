@@ -1,6 +1,7 @@
 ---
 import { existsSync } from 'node:fs';
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 import Media from '../components/Media.astro';
 import PdfLinks from '../components/PdfLinks.astro';
 import ContactLinks from '../components/ContactLinks.astro';
@@ -85,9 +86,18 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
       </div>
     </section>
 
-    <section class="tile bento-full" aria-labelledby="tools-title">
+    <section class="tile bento-skills" aria-labelledby="tools-title">
       <h2 class="tile-title" id="tools-title">{ui.tools}</h2>
       <ul class="tags">{about.tools.map((tool) => <li>{tool}</li>)}</ul>
+    </section>
+
+    <section class="tile bento-interests" aria-labelledby="interests-title">
+      <h2 class="tile-title" id="interests-title">{ui.interests}</h2>
+      <ul class="tags interests">
+        {about.interests.map((interest) => (
+          <li><Icon name={interest.icon} />{interest.label}</li>
+        ))}
+      </ul>
     </section>
   </div>
 </Base>
