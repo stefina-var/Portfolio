@@ -1,0 +1,29 @@
+---
+// Shows your image when `src` is set, otherwise a labelled line drawing.
+import PlaceholderArt from './PlaceholderArt.astro';
+import { toneFor } from './placeholderArt';
+import { getLang, getContent } from '../i18n';
+
+interface Props {
+  label: string;
+  ratio?: string;
+  src?: string;
+  alt?: string;
+  eager?: boolean;
+}
+
+const { label, ratio, src, alt = '', eager = false } = Astro.props;
+const { ui } = getContent(getLang(Astro.url));
+const style = ratio ? `--r:${ratio}` : undefined;
+---
+
+<div class="ph" style={style} data-tone={src ? undefined : toneFor(label)}>
+  {src ? (
+    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  ) : (
+    <>
+      <PlaceholderArt label={label} />
+      <span class="ph-label">{ui.placeholder}: {ui.kinds[label] ?? label}</span>
+    </>
+  )}
+</div>

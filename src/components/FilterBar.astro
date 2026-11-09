@@ -1,0 +1,65 @@
+---
+// Filters the children of the list named by `target`, using each item's data-category.
+// Without JavaScript the bar stays hidden and every item remains visible.
+import { getContent, getLang } from '../i18n';
+
+interface Props {
+  target: string;
+  options: { value: string; label: string }[];
+  label: string;
+}
+
+const { target, options, label } = Astro.props;
+const { ui } = getContent(getLang(Astro.url));
+---
+
+<div data-filter-root data-one={ui.one} data-many={ui.many}>
+  <div class="filters" role="group" aria-label={label} data-target={target} hidden>
+    {options.map((option, index) => (
+      <button type="button" data-value={option.value} aria-pressed={index === 0 ? 'true' : 'false'}>
+        {option.label}
+      </button>
+    ))}
+  </div>
+  <p class="meta filter-status" role="status" data-status></p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-filter-root]').forEach((root) => {
+    const bar = root.querySelector<HTMLElement>('.filters');
+    const status = root.querySelector<HTMLElement>('[data-status]');
+    const list = bar && document.getElementById(bar.dataset.target ?? '');
+    if (!bar || !list) return;
+
+    const items = Array.from(list.children) as HTMLElement[];
+    const buttons = Array.from(bar.querySelectorAll('button'));
+
+    function apply(value: string, updateUrl: boolean) {
+      let count = 0;
+      items.forEach((item) => {
+        const show = value === 'all' || item.dataset.category === value;
+        item.hidden = !show;
+        if (show) count += 1;
+      });
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.value === value));
+      });
+      if (status) status.textContent = `${count} ${count === 1 ? root.dataset.one : root.dataset.many}`;
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        if (value === 'all') url.searchParams.delete('filter');
+        else url.searchParams.set('filter', value);
+        history.replaceState(null, '', url);
+      }
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => apply(button.dataset.value ?? 'all', true));
+    });
+
+    bar.hidden = false;
+    const requested = new URLSearchParams(window.location.search).get('filter');
+    const valid = buttons.some((button) => button.dataset.value === requested);
+    apply(valid && requested ? requested : 'all', false);
+  });
+</script>

@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import FilterBar from '../components/FilterBar.astro';
+import { getContent, getLang } from '../i18n';
+
+const { site, articles, ui } = getContent(getLang(Astro.url));
+const visible = site.journalEnabled ? articles : [];
+const categories = [...new Set(visible.map((a) => a.category))];
+const options = [
+  { value: 'all', label: ui.all },
+  ...categories.map((category) => ({ value: category, label: category })),
+];
+---
+
+<Base title={ui.journal} description={ui.journalLead}>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="page-title">{ui.journal}</h1>
+      <p class="lead">{ui.journalLead}</p>
+    </header>
+    {visible.length > 0 ? (
+      <>
+        {categories.length > 1 && (
+          <FilterBar target="journal-list" options={options} label={ui.filterJournal} />
+        )}
+        <ul class="post-feed" id="journal-list">
+          {visible.map((article, index) => (
+            <li data-category={article.category}>
+              <ArticleCard article={article} headingLevel="h2" variant={index === 0 ? 'feature' : 'row'} />
+            </li>
+          ))}
+        </ul>
+      </>
+    ) : (
+      <p class="prose">{ui.journalEmpty}</p>
+    )}
+  </div>
+</Base>

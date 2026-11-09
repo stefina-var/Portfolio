@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import { getContent, getLang, l } from '../i18n';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  previous?: Project;
+  next?: Project;
+}
+
+const { project, previous, next } = Astro.props;
+const lang = getLang(Astro.url);
+const { site, ui } = getContent(lang);
+
+const facts = [
+  site.showSheetNumbers ? [ui.sheet, project.sheet] : undefined,
+  [ui.discipline, project.disciplines.join(', ')],
+  [ui.type, ui.projectTypes[project.type]],
+  [ui.year, project.year],
+  [ui.role, project.role],
+  [ui.collaborators, project.collaborators],
+].filter((fact): fact is string[] => Boolean(fact && fact[1]));
+
+const sections = [
+  [ui.overview, project.overview],
+  [ui.challenge, project.challenge],
+  [ui.approach, project.approach],
+  [ui.outcome, project.outcome],
+  [ui.credits, project.credits],
+].filter((section): section is string[] => Boolean(section[1]));
+---
+
+<Base title={project.title} description={project.summary}>
+  <article class={`t-${project.category}`}>
+    <header class="wrap page-head">
+      <p class="eyebrow"><a href={l(lang, '/work')}>{ui.work}</a> / {project.disciplines[0]}</p>
+      {project.sample && <p class="badge">{ui.sampleLong}</p>}
+      <h1 class="page-title">{project.title}</h1>
+      <p class="lead">{project.summary}</p>
+      <dl class="title-block">
+        {facts.map(([term, value]) => (
+          <div>
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </header>
+
+    <div class="wrap">
+      <Media label={project.hero.kind} ratio={project.hero.ratio} src={project.cover} alt={project.coverAlt} eager />
+    </div>
+
+    <div class="section wrap case-sections">
+      {sections.map(([heading, text]) => (
+        <section class="case-section">
+          <h2>{heading}</h2>
+          <div class="prose"><p>{text}</p></div>
+        </section>
+      ))}
+      {project.externalLink && (
+        <p><a class="link" href={project.externalLink.href}>{project.externalLink.label}</a></p>
+      )}
+    </div>
+
+    {project.gallery.length > 0 && (
+      <section class="section wrap" aria-label={ui.visuals}>
+        <div class="gallery">
+          {project.gallery.map((visual) => (
+            <figure class={visual.width}>
+              <Media label={visual.kind} ratio={visual.ratio} src={visual.src} alt={visual.alt} />
+              {visual.caption && <figcaption>{visual.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+
+  {previous && next && (
+    <nav class="section wrap" aria-label={ui.moreProjects}>
+      <div class="pager">
+        <a href={l(lang, `/work/${previous.slug}`)}>
+          <span class="meta">{ui.previous}</span>
+          <strong>{previous.title}</strong>
+        </a>
+        <a class="next" href={l(lang, `/work/${next.slug}`)}>
+          <span class="meta">{ui.next}</span>
+          <strong>{next.title}</strong>
+        </a>
+      </div>
+    </nav>
+  )}
+</Base>

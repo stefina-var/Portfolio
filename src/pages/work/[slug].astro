@@ -1,0 +1,8 @@
+---
+import View from '../../views/Project.astro';
+import { projectPaths } from '../../i18n';
+
+export const getStaticPaths = () => projectPaths('en');
+---
+
+<View {...Astro.props} />

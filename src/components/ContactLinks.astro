@@ -1,0 +1,21 @@
+---
+import { getContent, getLang } from '../i18n';
+
+const { site, ui } = getContent(getLang(Astro.url));
+const { email, linkedin, instagram } = site.contact;
+const links = [
+  email && { label: email, href: `mailto:${email}` },
+  linkedin && { label: 'LinkedIn', href: linkedin },
+  instagram && { label: 'Instagram', href: instagram },
+].filter(Boolean) as { label: string; href: string }[];
+---
+
+{links.length > 0 ? (
+  <ul class="contact-links">
+    {links.map((link) => (
+      <li><a class="link" href={link.href}>{link.label}</a></li>
+    ))}
+  </ul>
+) : (
+  <p class="meta">{ui.noContact}</p>
+)}

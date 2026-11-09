@@ -1,0 +1,103 @@
+---
+// Generic line drawings that stand in until real images are added.
+// They are decorative and always appear with a "Placeholder" label.
+import { artByLabel } from './placeholderArt';
+
+interface Props {
+  label: string;
+}
+
+const art = artByLabel[Astro.props.label];
+const floors = [0, 1, 2, 3, 4];
+const bays = [0, 1, 2, 3, 4, 5, 6];
+const rings = [30, 58, 86, 114, 142];
+---
+
+{art && (
+  <svg class="ph-art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    {art === 'elevation' && (
+      <>
+        <path d="M0 262H400" />
+        <rect x="88" y="58" width="224" height="204" />
+        {floors.map((f) => bays.map((b) => (
+          <rect x={98 + b * 30} y={70 + f * 37} width={(b + f) % 3 === 0 ? 24 : 18} height="26" />
+        )))}
+        <path d="M312 262L372 232V96L312 58M372 232H400" />
+      </>
+    )}
+    {art === 'plan' && (
+      <>
+        <rect x="70" y="50" width="260" height="190" />
+        <rect x="76" y="56" width="248" height="178" />
+        <path d="M170 56V140H120M240 234V150H324M170 180V234" />
+        <path d="M120 140A34 34 0 0 1 154 106M154 140V106M240 150A30 30 0 0 0 270 180M240 180H270" />
+        {[110, 200, 290].map((x) => [90, 200].map((y) => <circle class="solid" cx={x} cy={y} r="2.5" />))}
+        <path d="M70 262H330M70 257V267M170 257V267M240 257V267M330 257V267M48 50V240M43 50H53M43 240H53" />
+      </>
+    )}
+    {art === 'section' && (
+      <>
+        <path d="M0 232H400" />
+        <path d="M60 232V90L200 34L340 90V232M60 90H340M60 142H340M60 187H340" />
+        <path d="M250 232V218H266V204H282V190H298V176H314V142" />
+        <path d="M98 232V198H122V232" />
+        <circle cx="170" cy="210" r="4" />
+        <path d="M170 214V226M163 219H177" />
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((i) => <path d={`M${20 + i * 26} 248L${32 + i * 26} 236`} />)}
+      </>
+    )}
+    {art === 'concept' && (
+      <>
+        <circle cx="160" cy="140" r="84" />
+        <circle cx="240" cy="140" r="84" />
+        <path d="M60 140H340M200 30V250" stroke-dasharray="4 5" />
+        <circle class="solid" cx="200" cy="140" r="3.5" />
+      </>
+    )}
+    {art === 'screen' && (
+      <>
+        <rect x="56" y="44" width="288" height="196" rx="4" />
+        <path d="M56 70H344M120 70V240" />
+        <circle cx="70" cy="57" r="2.5" /><circle cx="80" cy="57" r="2.5" /><circle cx="90" cy="57" r="2.5" />
+        <path d="M68 90H108M68 106H100M68 122H104M68 138H96" />
+        <rect x="134" y="84" width="96" height="66" /><rect x="238" y="84" width="92" height="66" />
+        <path d="M134 168H330M134 184H330M134 200H290M134 216H250" />
+      </>
+    )}
+    {art === 'devices' && (
+      <>
+        <rect x="42" y="54" width="252" height="176" rx="4" />
+        <path d="M42 78H294M66 104H170M66 124H220" />
+        <rect x="66" y="146" width="204" height="62" />
+        <rect x="266" y="104" width="92" height="160" rx="10" fill="var(--charcoal)" />
+        <path d="M300 118H324" />
+        <rect x="278" y="132" width="68" height="56" />
+        <path d="M278 204H346M278 220H332M278 236H320" />
+      </>
+    )}
+    {art === 'flow' && (
+      <>
+        <rect x="30" y="126" width="62" height="40" /><rect x="136" y="66" width="62" height="40" />
+        <rect x="136" y="186" width="62" height="40" /><rect x="242" y="126" width="62" height="40" />
+        <circle cx="356" cy="146" r="17" />
+        <path d="M92 146H114V86H136M114 146V206H136M198 86H220V146H242M198 206H220V146M304 146H339" />
+      </>
+    )}
+    {art === 'poster' && (
+      <>
+        <circle class="solid" cx="200" cy="128" r="84" />
+        <path d="M46 246H354M46 262H230" stroke-width="2" />
+        <rect x="46" y="28" width="308" height="244" />
+      </>
+    )}
+    {art === 'spread' && (
+      <>
+        <rect x="56" y="48" width="288" height="204" />
+        <path d="M200 48V252" />
+        <rect class="solid" x="56" y="48" width="144" height="204" />
+        <path d="M218 76H326M218 92H326M218 108H300M218 140H326M218 156H326M218 172H280" />
+      </>
+    )}
+    {art === 'rings' && rings.map((r) => <circle cx="130" cy="320" r={r * 1.9} />)}
+  </svg>
+)}

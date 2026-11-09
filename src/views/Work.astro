@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import FilterBar from '../components/FilterBar.astro';
+import PdfLinks from '../components/PdfLinks.astro';
+import { getContent, getLang } from '../i18n';
+
+const { projects, site, ui } = getContent(getLang(Astro.url));
+const hasPdfs = site.pdfs.showComingSoon || site.pdfs.items.some((pdf) => pdf.available);
+const options = [
+  { value: 'all', label: ui.all },
+  { value: 'architecture', label: ui.filters.architecture },
+  { value: 'design', label: ui.filters.design },
+];
+---
+
+<Base title={ui.work} description={ui.featuredTitle}>
+  <div class="wrap">
+    <div class="work-top">
+      <header class="page-head">
+        <h1 class="page-title">{ui.work}</h1>
+        <p class="lead">{ui.featuredTitle}</p>
+      </header>
+      {hasPdfs && (
+        <aside class="tile work-downloads" aria-labelledby="pdf-title">
+          <h2 class="tile-title" id="pdf-title">{ui.download}</h2>
+          <PdfLinks />
+        </aside>
+      )}
+      <div class="work-filters">
+        <FilterBar target="work-list" options={options} label={ui.filterWork} />
+      </div>
+    </div>
+    <ul class="index-grid" id="work-list">
+      {projects.map((project) => (
+        <li data-category={project.category === 'architecture' ? 'architecture' : 'design'}>
+          <ProjectCard project={project} ratio="4/3" headingLevel="h2" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

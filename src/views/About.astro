@@ -1,0 +1,93 @@
+---
+import { existsSync } from 'node:fs';
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import PdfLinks from '../components/PdfLinks.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import { getContent, getLang } from '../i18n';
+
+const { site, ui } = getContent(getLang(Astro.url));
+const { about } = site;
+// Add public/images/portrait.jpg and the portrait appears automatically.
+const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jpg' : undefined;
+---
+
+<Base title={ui.about} description={about.intro}>
+  <div class="wrap bento">
+    <div class="bento-portrait">
+      <Media label="Portrait" ratio="1/1" src={portrait} alt={`${ui.portraitOf} ${site.name}`} eager />
+    </div>
+
+    <header class="tile bento-intro">
+      <p class="eyebrow">{site.title}</p>
+      <h1 class="about-name">{site.name}</h1>
+      <p class="about-lead">{about.intro}</p>
+      <p class="about-focus">{about.focus}</p>
+      <div class="about-links">
+        <PdfLinks />
+        <ContactLinks />
+      </div>
+    </header>
+
+    <section class="tile bento-experience" aria-labelledby="experience-title">
+      <h2 class="tile-title" id="experience-title">{ui.experience}</h2>
+      <div class="folds">
+        {about.timeline.map((job) => (
+          <details class="fold">
+            <summary>
+              <span class="fold-heading">
+                <span class="fold-title">{job.role}</span>
+                <span class="meta">{job.place} · {job.period}</span>
+              </span>
+            </summary>
+            <div class="fold-body">
+              {job.about && <p class="fold-about">{job.about}</p>}
+              <ul class="bullets">
+                {job.details.map((detail) => <li>{detail}</li>)}
+              </ul>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="tile bento-education" aria-labelledby="education-title">
+      <h2 class="tile-title" id="education-title">{ui.education}</h2>
+      <ul class="edu">
+        {about.education.map((row) => (
+          <li><span>{row.item}</span><span class="meta">{row.note}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="tile bento-half" aria-labelledby="story-title">
+      <h2 class="tile-title" id="story-title">{ui.storyTitle}</h2>
+      <div class="folds">
+        {about.story.map((stage) => (
+          <details class="fold">
+            <summary><span class="fold-title">{stage.heading}</span></summary>
+            <div class="fold-body"><p>{stage.text}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="tile bento-half" aria-labelledby="beyond-title">
+      <h2 class="tile-title" id="beyond-title">{ui.beyond}</h2>
+      <p class="fold-about">{about.beyond.intro}</p>
+      <div class="folds">
+        {about.beyond.items.map((item) => (
+          <details class="fold">
+            <summary><span class="fold-title">{item.title}</span></summary>
+            <div class="fold-body"><p>{item.text}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="tile bento-full" aria-labelledby="tools-title">
+      <h2 class="tile-title" id="tools-title">{ui.tools}</h2>
+      <ul class="tags">{about.tools.map((tool) => <li>{tool}</li>)}</ul>
+    </section>
+  </div>
+</Base>

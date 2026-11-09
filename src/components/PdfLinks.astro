@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import { getContent, getLang } from '../i18n';
+
+interface Props {
+  only?: string;
+}
+
+const { only } = Astro.props;
+const { site, ui } = getContent(getLang(Astro.url));
+const items = site.pdfs.items.filter(
+  (pdf) => (!only || pdf.key === only) && (pdf.available || site.pdfs.showComingSoon),
+);
+---
+
+{items.length > 0 && (
+  <ul class="pdfs">
+    {items.map((pdf) => (
+      <li>
+        {pdf.available ? (
+          <a class="pdf-btn" href={pdf.file} download>
+            <Icon name="download" />
+            <span>{pdf.label}</span>
+          </a>
+        ) : (
+          <span class="pdf-btn is-soon">
+            <Icon name="download" />
+            <span>{pdf.label}</span>
+            <span class="pdf-soon">{ui.comingSoon}</span>
+          </span>
+        )}
+      </li>
+    ))}
+  </ul>
+)}

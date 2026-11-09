@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PdfLinks from '../components/PdfLinks.astro';
+import { getContent, getLang, l } from '../i18n';
+
+const lang = getLang(Astro.url);
+const { site, projects, ui } = getContent(lang);
+const discipline = site.disciplines[1];
+const items = projects.filter((p) => p.category === 'digital' || p.alsoDigital);
+---
+
+<Base title={discipline.name} description={discipline.description}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow"><a href={l(lang, '/work')}>{ui.work}</a> / {ui.digitalCrumb}</p>
+      <h1 class="page-title">{discipline.name}</h1>
+      <p class="lead">{discipline.description}</p>
+    </header>
+  </div>
+  <div class="digital-band wrap">
+    <ul class="screens">
+      {items.map((project) => (
+        <li><ProjectCard project={project} ratio="16/10" headingLevel="h2" /></li>
+      ))}
+    </ul>
+  </div>
+  <div class="wrap">
+    <section class="section" aria-labelledby="pdf-title">
+      <div class="section-head"><h2 id="pdf-title">{ui.fullPortfolio}</h2></div>
+      <PdfLinks only="digital" />
+    </section>
+  </div>
+</Base>

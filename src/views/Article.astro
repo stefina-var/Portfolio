@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getContent, getLang, l, readTime } from '../i18n';
+import type { Article } from '../data/journal';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+const lang = getLang(Astro.url);
+const { articles, ui, site } = getContent(lang);
+const more = articles.filter((a) => a.slug !== article.slug).slice(0, 2);
+const details = [article.date, readTime(article, ui)].filter(Boolean).join(' · ');
+---
+
+<Base title={article.title} description={article.excerpt}>
+  <article class="wrap">
+    <div class="article page-head">
+      <p class="eyebrow"><a href={l(lang, '/journal')}>{ui.journal}</a> / {article.category}</p>
+      {article.sample && <p class="badge">{ui.sampleEntryLong}</p>}
+      <h1>{article.title}</h1>
+      <p class="meta post-byline">{site.name} · {details}</p>
+    </div>
+    <div class="article article-wide">
+      <Media label="Cover image" ratio="3/2" src={article.cover} alt={article.coverAlt} eager />
+    </div>
+    <div class="article article-body prose">
+      {article.body.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+    {article.images && article.images.length > 0 && (
+      <div class="article article-wide post-images">
+        {article.images.map((image) => (
+          <figure>
+            <Media label="Cover image" ratio="3/2" src={image.src} alt={image.alt} />
+            {image.caption && <figcaption>{image.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )}
+  </article>
+
+  {more.length > 0 && (
+    <section class="section wrap" aria-labelledby="more-title">
+      <div class="article">
+        <div class="section-head">
+          <h2 id="more-title">{ui.keepReading}</h2>
+          <a class="link" href={l(lang, '/journal')}>{ui.backJournal}</a>
+        </div>
+        <ul class="post-feed">
+          {more.map((item) => (
+            <li><ArticleCard article={item} variant="row" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>

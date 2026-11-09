@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PdfLinks from '../components/PdfLinks.astro';
+import { getContent, getLang, l } from '../i18n';
+
+const lang = getLang(Astro.url);
+const { site, projects, ui } = getContent(lang);
+const discipline = site.disciplines[0];
+const items = projects.filter((p) => p.category === 'architecture');
+---
+
+<Base title={discipline.name} description={discipline.description}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow"><a href={l(lang, '/work')}>{ui.work}</a> / {discipline.name}</p>
+      <h1 class="page-title">{discipline.name}</h1>
+      <p class="lead">{discipline.description}</p>
+    </header>
+    <ul class="sheets">
+      {items.map((project) => (
+        <li><ProjectCard project={project} ratio="16/9" headingLevel="h2" /></li>
+      ))}
+    </ul>
+    <section class="section" aria-labelledby="pdf-title">
+      <div class="section-head"><h2 id="pdf-title">{ui.fullPortfolio}</h2></div>
+      <PdfLinks only="architecture" />
+    </section>
+  </div>
+</Base>

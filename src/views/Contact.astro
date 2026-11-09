@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import PdfLinks from '../components/PdfLinks.astro';
+import { getContent, getLang } from '../i18n';
+
+const { site, ui } = getContent(getLang(Astro.url));
+---
+
+<Base title={ui.connect} description={site.contact.invitation}>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="page-title">{site.contact.invitation}</h1>
+    </header>
+    <div class="tile-pair">
+      <section class="tile" aria-labelledby="reach-title">
+        <h2 class="tile-title" id="reach-title">{ui.reach}</h2>
+        <ContactLinks />
+      </section>
+      <section class="tile" aria-labelledby="pdfs-title">
+        <h2 class="tile-title" id="pdfs-title">{ui.portfolios}</h2>
+        <PdfLinks />
+      </section>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,196 @@
+---
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/source-serif-4/opsz-italic.css';
+import '@fontsource-variable/golos-text/wght.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '../styles/global.css';
+import ContactLinks from '../components/ContactLinks.astro';
+import Icon from '../components/Icon.astro';
+import PdfLinks from '../components/PdfLinks.astro';
+import { getContent, getLang, l, stripLang } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const lang = getLang(Astro.url);
+const { site, ui } = getContent(lang);
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const path = stripLang(Astro.url.pathname);
+const nav = [
+  { href: '/work', label: ui.work },
+  { href: '/about', label: ui.about },
+  { href: '/journal', label: ui.journal },
+];
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === 'bg' ? 'bg_BG' : 'en_GB'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        var theme;
+        try { theme = localStorage.getItem('theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.classList.add('js');
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{ui.skip}</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="wordmark" href={l(lang, '/')}>{site.name}</a>
+        <nav class="nav no-js-row" id="site-nav" aria-label={ui.mainNav}>
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={l(lang, item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+          <div class="prefs-row">
+            <div class="prefs">
+              <button class="prefs-btn" type="button" aria-expanded="false" aria-controls="language-panel" aria-label={ui.language}>
+                <Icon name="globe" />
+                <span>{lang.toUpperCase()}</span>
+                <svg class="prefs-chevron" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" /></svg>
+              </button>
+              <div class="prefs-panel" id="language-panel">
+                <p class="prefs-title"><Icon name="globe" />{ui.language}</p>
+                <a class="prefs-option" href={l('en', path)} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>English</a>
+                <a class="prefs-option" href={l('bg', path)} hreflang="bg" lang="bg" aria-current={lang === 'bg' ? 'true' : undefined}>Български</a>
+              </div>
+            </div>
+            <div class="prefs prefs-theme">
+              <button class="prefs-btn" type="button" aria-expanded="false" aria-controls="theme-panel" aria-label={ui.theme}>
+                <span class="when-light"><Icon name="sun" />{ui.light}</span>
+                <span class="when-dark"><Icon name="moon" />{ui.dark}</span>
+                <svg class="prefs-chevron" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" /></svg>
+              </button>
+              <div class="prefs-panel" id="theme-panel">
+                <p class="prefs-title"><span class="when-light"><Icon name="sun" /></span><span class="when-dark"><Icon name="moon" /></span>{ui.theme}</p>
+                <button class="prefs-option" type="button" data-set-theme="light" aria-pressed="false"><span class="prefs-label"><Icon name="sun" />{ui.light}</span></button>
+                <button class="prefs-option" type="button" data-set-theme="dark" aria-pressed="false"><span class="prefs-label"><Icon name="moon" />{ui.dark}</span></button>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <a class="cta" href={l(lang, '/contact')} aria-current={path === '/contact' ? 'page' : undefined}>{ui.connect}</a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu={ui.menu} data-close={ui.close}>{ui.menu}</button>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer wrap">
+      <p class="footer-invite"><a href={l(lang, '/contact')}>{site.contact.invitation}</a></p>
+      <div class="footer-grid">
+        <div>
+          <h2>{ui.footerWork}</h2>
+          <ul>
+            {site.disciplines.map((d) => (
+              <li><a class="link" href={l(lang, d.href)}>{d.name}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2>{ui.footerPortfolios}</h2>
+          <PdfLinks />
+        </div>
+        <div>
+          <h2>{ui.footerElsewhere}</h2>
+          <ContactLinks />
+        </div>
+      </div>
+      <p class="meta footer-bottom">© {new Date().getFullYear()} {site.name}</p>
+    </footer>
+
+    <script>
+      const button = document.querySelector<HTMLButtonElement>('.menu-btn');
+      const nav = document.getElementById('site-nav');
+      const blocked = [document.querySelector('main'), document.querySelector('footer')];
+
+      function setOpen(open: boolean) {
+        if (!button || !nav) return;
+        nav.classList.toggle('open', open);
+        button.setAttribute('aria-expanded', String(open));
+        button.textContent = (open ? button.dataset.close : button.dataset.menu) ?? '';
+        document.body.classList.toggle('menu-open', open);
+        blocked.forEach((el) => el?.toggleAttribute('inert', open));
+      }
+
+      button?.addEventListener('click', () => {
+        setOpen(button.getAttribute('aria-expanded') !== 'true');
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') {
+          setOpen(false);
+          button.focus();
+        }
+      });
+      window.matchMedia('(min-width: 1100px)').addEventListener('change', () => setOpen(false));
+
+      const dropdowns = Array.from(document.querySelectorAll<HTMLElement>('.prefs'));
+
+      function setDropdownOpen(dropdown: HTMLElement, open: boolean) {
+        dropdown.classList.toggle('open', open);
+        dropdown.querySelector('.prefs-btn')?.setAttribute('aria-expanded', String(open));
+      }
+
+      dropdowns.forEach((dropdown) => {
+        dropdown.querySelector('.prefs-btn')?.addEventListener('click', () => {
+          const open = !dropdown.classList.contains('open');
+          dropdowns.forEach((other) => setDropdownOpen(other, other === dropdown && open));
+        });
+      });
+      document.addEventListener('click', (event) => {
+        dropdowns.forEach((dropdown) => {
+          if (!dropdown.contains(event.target as Node)) setDropdownOpen(dropdown, false);
+        });
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        dropdowns.forEach((dropdown) => {
+          if (!dropdown.classList.contains('open')) return;
+          setDropdownOpen(dropdown, false);
+          dropdown.querySelector<HTMLElement>('.prefs-btn')?.focus();
+        });
+      });
+
+      const root = document.documentElement;
+      const themeOptions = document.querySelectorAll<HTMLButtonElement>('[data-set-theme]');
+
+      function showTheme() {
+        themeOptions.forEach((option) => {
+          option.setAttribute('aria-pressed', String(option.dataset.setTheme === root.dataset.theme));
+        });
+      }
+      themeOptions.forEach((option) => {
+        option.addEventListener('click', () => {
+          root.dataset.theme = option.dataset.setTheme;
+          try { localStorage.setItem('theme', option.dataset.setTheme ?? ''); } catch {}
+          showTheme();
+        });
+      });
+      showTheme();
+    </script>
+  </body>
+</html>
