@@ -181,7 +181,7 @@ const sportsSheets: [string, string][] = [
   ['Aerial view and visualisations of the whole complex.', 'Изглед отгоре и визуализации на целия комплекс.'],
 ];
 
-export const projects: Project[] = [
+const allProjects: Project[] = [
   {
     slug: 'tuk-tam',
     sheet: 'D-01',
@@ -440,3 +440,6 @@ export const projects: Project[] = [
     },
   },
 ];
+
+// Sample placeholders stay above as templates but are hidden from the site for now.
+export const projects: Project[] = allProjects.filter((project) => !project.sample);

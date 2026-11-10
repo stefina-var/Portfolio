@@ -26,7 +26,6 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
       <p class="about-lead">
         {about.intro.split('**').map((part, index) => (index % 2 ? <strong>{part}</strong> : part))}
       </p>
-      <p class="about-focus">{about.focus}</p>
       <div class="about-links">
         <PdfLinks />
         <ContactLinks />

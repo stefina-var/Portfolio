@@ -30,9 +30,11 @@ const notes = site.journalEnabled ? articles.slice(0, 3) : [];
         </h1>
         <p class="descriptor">{site.descriptor}</p>
       </div>
-      <div class="hero-photo">
-        <Media label="Portrait" ratio="4/3" src={photo} alt={`${ui.portraitOf} ${site.name}`} eager />
-      </div>
+      {photo && (
+        <div class="hero-photo">
+          <Media label="Portrait" ratio="4/3" src={photo} alt={`${ui.portraitOf} ${site.name}`} eager />
+        </div>
+      )}
     </div>
     <HeroLine />
     <div class="hero-body">

@@ -14,8 +14,8 @@ const lang = getLang(Astro.url);
 const ratio = variant === 'feature' ? '3/2' : '4/3';
 ---
 
-<a class={`card post-${variant}`} href={l(lang, `/journal/${article.slug}`)}>
-  <Media label="Cover image" ratio={ratio} src={article.cover} alt={article.coverAlt} />
+<a class:list={['card', `post-${variant}`, { 'no-cover': !article.cover }]} href={l(lang, `/journal/${article.slug}`)}>
+  {article.cover && <Media label="Cover image" ratio={ratio} src={article.cover} alt={article.coverAlt} />}
   <div class="card-info">
     <Heading class="card-title">{article.title}</Heading>
     <p class="card-summary">{article.excerpt}</p>

@@ -27,9 +27,11 @@ const GALLERY = '[[gallery]]';
       <h1>{article.title}</h1>
       {article.standfirst && <p class="lead post-standfirst">{article.excerpt}</p>}
     </div>
-    <div class="article">
-      <Media label="Cover image" ratio="3/2" src={article.cover} alt={article.coverAlt} eager />
-    </div>
+    {article.cover && (
+      <div class="article">
+        <Media label="Cover image" ratio="3/2" src={article.cover} alt={article.coverAlt} eager />
+      </div>
+    )}
     <div class="article article-body prose">
       {article.body.map((paragraph) =>
         paragraph === GALLERY ? (

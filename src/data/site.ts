@@ -87,7 +87,7 @@ export const site = {
   about: {
     intro:
       // Words between ** are shown in bold.
-      'Multidisciplinary professional with a background in **architecture**, **product design**, and **digital marketing**. Combining creative thinking, analytical skills, and technology to develop **user-centered, business-driven solutions**.',
+      'Multidisciplinary professional with a background in **architecture**, **product design**, and **digital marketing**. Combining creative thinking, analytical skills, and technology to develop **user-centered, business-driven solutions**. Passionate about innovation, human behavior, and the intersection of business, design, and technology.',
     story: [
       {
         heading: 'Architectural education',
@@ -106,8 +106,6 @@ export const site = {
         text: 'At TieBreak I design landing pages, campaigns, emails and digital assets for multiple international markets, working closely with frontend developers.',
       },
     ],
-    focus:
-      'Passionate about innovation, human behavior, and the intersection of business, design, and technology.',
     timeline: [
       {
         period: '04.2025 – now',
