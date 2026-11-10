@@ -1,0 +1,131 @@
+---
+// A slide presentation: one 16:9 slide at a time, swipe, arrows, keyboard and full screen.
+// A slide with `video` plays muted while it is on screen.
+import Icon from './Icon.astro';
+import { getContent, getLang } from '../i18n';
+import type { Slide } from '../data/projects';
+
+interface Props {
+  slides: Slide[];
+  ratio?: string; // slide proportions, e.g. '16 / 9' or '1191 / 842' for A3 sheets
+}
+
+const { slides, ratio = '16 / 9' } = Astro.props;
+const { ui } = getContent(getLang(Astro.url));
+---
+
+<div class="deck" style={`--deck-r: ${ratio}`} data-deck role="region" aria-roledescription="carousel" aria-label={ui.presentation}>
+  <ul class="deck-track" tabindex="0" data-track>
+    {slides.map((slide, index) => (
+      <li class="deck-slide" aria-roledescription="slide" aria-label={`${ui.slide} ${index + 1} / ${slides.length}`}>
+        {slide.video && slide.controls ? (
+          <video src={`${slide.video}#t=0.5`} controls playsinline preload="metadata" aria-label={slide.alt} data-video data-manual />
+        ) : slide.video ? (
+          <video
+            src={`${slide.video}#t=0.1`}
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label={slide.alt}
+            data-video
+          />
+        ) : (
+          <img src={slide.src} alt={slide.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+        )}
+        {slide.jump && (
+          <button
+            class="deck-jump"
+            type="button"
+            data-go={slide.jump.to - 1}
+            aria-label={slide.jump.label}
+            style={`left:${slide.jump.area[0]}%;top:${slide.jump.area[1]}%;width:${slide.jump.area[2]}%;height:${slide.jump.area[3]}%`}
+          />
+        )}
+      </li>
+    ))}
+  </ul>
+  <div class="deck-bar">
+    <span class="meta" data-count aria-live="polite">1 / {slides.length}</span>
+    {/* Dots only while they fit; long decks rely on the counter. */}
+    <div class="deck-dots" aria-hidden="true">
+      {slides.length <= 30 && slides.map((_, index) => <span class:list={['deck-dot', { 'is-on': index === 0 }]} />)}
+    </div>
+    <div class="carousel-buttons">
+      <button class="carousel-btn deck-full" type="button" data-full aria-label={ui.fullscreen} data-on={ui.fullscreen} data-off={ui.exitFullscreen}><Icon name="expand" /></button>
+      <button class="carousel-btn" type="button" data-prev aria-label={ui.previous}><Icon name="back" /></button>
+      <button class="carousel-btn carousel-next" type="button" data-next aria-label={ui.next}><Icon name="back" /></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-deck]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const count = root.querySelector<HTMLElement>('[data-count]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    const full = root.querySelector<HTMLButtonElement>('[data-full]');
+    if (!track || !count || !prev || !next || !full) return;
+
+    const slides = Array.from(track.children) as HTMLElement[];
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('.deck-dot'));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let index = 0;
+
+    const current = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+
+    function update() {
+      if (!track || !count || !prev || !next) return;
+      index = Math.max(0, Math.min(slides.length - 1, current()));
+      count.textContent = `${index + 1} / ${slides.length}`;
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+      dots.forEach((dot, i) => dot.classList.toggle('is-on', i === index));
+      slides.forEach((slide, i) => {
+        const video = slide.querySelector<HTMLVideoElement>('[data-video]');
+        if (!video) return;
+        if (i === index && !reduced && !('manual' in video.dataset)) video.play().catch(() => {});
+        else if (i === index) return;
+        else video.pause();
+      });
+    }
+
+    function go(target: number) {
+      const clamped = Math.max(0, Math.min(slides.length - 1, target));
+      track?.scrollTo({ left: clamped * track.clientWidth, behavior: reduced ? 'auto' : 'smooth' });
+    }
+
+    let timer = 0;
+    track.addEventListener('scroll', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(update, 60);
+    }, { passive: true });
+    prev.addEventListener('click', () => go(index - 1));
+    next.addEventListener('click', () => go(index + 1));
+    root.querySelectorAll<HTMLButtonElement>('[data-go]').forEach((button) => {
+      button.addEventListener('click', () => go(Number(button.dataset.go)));
+    });
+    root.addEventListener('keydown', (event) => {
+      if (event.target instanceof HTMLVideoElement) return; // arrows seek inside the player
+      if (event.key === 'ArrowRight') { event.preventDefault(); go(index + 1); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); go(index - 1); }
+    });
+
+    // Keep the same slide in view when the size changes (full screen, rotation).
+    new ResizeObserver(() => { track.scrollLeft = index * track.clientWidth; }).observe(track);
+
+    if (!document.fullscreenEnabled) full.hidden = true;
+    full.addEventListener('click', () => {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else root.requestFullscreen().catch(() => {});
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const on = document.fullscreenElement === root;
+      full.setAttribute('aria-label', (on ? full.dataset.off : full.dataset.on) ?? '');
+      if (on) track.focus();
+    });
+
+    update();
+  });
+</script>

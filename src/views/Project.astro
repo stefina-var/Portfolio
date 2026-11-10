@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import Media from '../components/Media.astro';
+import Deck from '../components/Deck.astro';
 import { getContent, getLang, l } from '../i18n';
 import type { Project } from '../data/projects';
 
@@ -11,7 +12,7 @@ interface Props {
   next?: Project;
 }
 
-const { project, previous, next } = Astro.props;
+const { project } = Astro.props;
 const lang = getLang(Astro.url);
 const { site, ui } = getContent(lang);
 
@@ -31,13 +32,16 @@ const sections = [
   [ui.outcome, project.outcome],
   [ui.credits, project.credits],
 ].filter((section): section is string[] => Boolean(section[1]));
+
+// Blank lines split paragraphs; **text** is bold.
+const paragraphs = (text: string) =>
+  text.split(/\n\s*\n/).map((p) => p.split('**').map((part, i) => ({ text: part, bold: i % 2 === 1 })));
 ---
 
 <Base title={project.title} description={project.summary}>
   <article class={`t-${project.category}`}>
     <header class="wrap page-head">
       <Breadcrumb href={l(lang, '/work')} label={ui.work} current={project.disciplines[0]} />
-      {project.sample && <p class="badge">{ui.sampleLong}</p>}
       <h1 class="page-title">{project.title}</h1>
       <p class="lead">{project.summary}</p>
       <dl class="title-block">
@@ -51,14 +55,22 @@ const sections = [
     </header>
 
     <div class="wrap">
-      <Media label={project.hero.kind} ratio={project.hero.ratio} src={project.cover} alt={project.coverAlt} eager />
+      {project.deck?.length ? (
+        <Deck slides={project.deck} ratio={project.deckRatio} />
+      ) : (
+        <Media label={project.hero.kind} ratio={project.hero.ratio} src={project.cover} alt={project.coverAlt} eager />
+      )}
     </div>
 
     <div class="section wrap case-sections">
       {sections.map(([heading, text]) => (
         <section class="case-section">
           <h2>{heading}</h2>
-          <div class="prose"><p>{text}</p></div>
+          <div class="prose">
+            {paragraphs(text).map((parts) => (
+              <p>{parts.map((part) => (part.bold ? <strong>{part.text}</strong> : part.text))}</p>
+            ))}
+          </div>
         </section>
       ))}
       {project.externalLink && (
@@ -80,18 +92,4 @@ const sections = [
     )}
   </article>
 
-  {previous && next && (
-    <nav class="section wrap" aria-label={ui.moreProjects}>
-      <div class="pager">
-        <a href={l(lang, `/work/${previous.slug}`)}>
-          <span class="meta">{ui.previous}</span>
-          <strong>{previous.title}</strong>
-        </a>
-        <a class="next" href={l(lang, `/work/${next.slug}`)}>
-          <span class="meta">{ui.next}</span>
-          <strong>{next.title}</strong>
-        </a>
-      </div>
-    </nav>
-  )}
 </Base>

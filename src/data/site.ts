@@ -15,7 +15,9 @@ export const site = {
 
   // Leave a value empty ('') and its link stays hidden, so nothing is ever a dead link.
   contact: {
-    email: '',
+    email: 'stefina.varadzhakova99@gmail.com',
+    phone: '+359 87 600 6300',
+    location: 'Sofia / Burgas',
     linkedin: '',
     instagram: '',
     invitation: "Interested in collaborating or exchanging ideas? Let's connect.",
@@ -76,9 +78,16 @@ export const site = {
     },
   ],
 
+  // Skill pills shown under the filters on the Work page.
+  workSkills: {
+    architecture: ['Architectural Design', 'Interior Design', 'ArchiCAD', 'AutoCAD', 'Lumion', 'Photoshop', '3D Modelling & Rendering', 'InDesign', 'Drawing', 'Composition'],
+    design: ['Branding', 'Figma', 'Claude', 'Adobe Creative Cloud', 'Vibe Coding', 'Higgsfield', 'Visual Communication','Dynamic Banners', 'Email Visuals', 'Video', 'User Research', 'Information Architecture', 'UX/UI', 'Prototyping', 'Design Systems', 'Web Design'],
+  },
+
   about: {
     intro:
-      'I work across architecture, digital experiences and visual communication. The disciplines are different; the habit of mind that connects them is the same.',
+      // Words between ** are shown in bold.
+      'Multidisciplinary professional with a background in **architecture**, **product design**, and **digital marketing**. Combining creative thinking, analytical skills, and technology to develop **user-centered, business-driven solutions**.',
     story: [
       {
         heading: 'Architectural education',
@@ -98,7 +107,7 @@ export const site = {
       },
     ],
     focus:
-      "I'm a Sofia-based designer with a passion for merging technology and design. I've worked across various disciplines, embracing challenges that require creative, straightforward solutions. Skilled in both visual and conceptual design, I bring clarity and precision to every project.",
+      'Passionate about innovation, human behavior, and the intersection of business, design, and technology.',
     timeline: [
       {
         period: '04.2025 – now',
@@ -106,13 +115,11 @@ export const site = {
         place: 'TieBreak',
         about: 'FinTech and MarTech company operating across multiple international markets',
         details: [
-          'Designed landing pages and web experiences aligned with brand, product and marketing goals',
-          'Created UI layouts, campaign pages, email designs and digital assets across multiple international markets',
-          'Created static and dynamic campaign creatives, including HTML5 banners',
-          'Designed logos and branding',
-          'Collaborated with frontend developers on implementation and design quality',
-          'Used Figma and AI-assisted workflows to speed up design production and iteration',
-          'Supported localization, visual consistency and quality checks across digital touchpoints',
+          'Web & UI/UX Design: Design websites, landing pages, and user-centered digital experiences',
+          'Digital Marketing: Create assets for PPC, SEO, CRM, email, and affiliate campaigns',
+          'Branding & Visual Design: Develop brand identities, campaign visuals, and digital assets',
+          'AI & Digital Solutions: Develop AI-powered tools, internal platforms, and workflow automations',
+          'Cross-functional Collaboration: Collaborate with marketing, development, and business teams',
         ],
       },
       {
@@ -120,7 +127,11 @@ export const site = {
         role: 'Product Designer, Mobile App & Web',
         place: 'Tuk-Tam',
         about: 'Non-profit organization connecting young Bulgarians with education and career opportunities',
-        details: [
+        details: [],
+        roles: [{
+          title: 'Product Designer',
+          period: '07.2024 – 12.2024',
+          details: [
           'Designed end-to-end UX and UI for a consumer mobile app',
           'Created low- and high-fidelity prototypes and complete user flows',
           'Led 25+ user interviews, managed recruitment and translated research insights into design solutions',
@@ -128,16 +139,80 @@ export const site = {
           'Iterated designs through implementation and performed design quality checks',
           'Collaborated with developers on mobile and website implementation',
           'Designed pages for the official website, plus presentations and brand assets',
+          ],
+        }, {
+          title: 'Product Manager, Internship',
+          period: '04.2024 – 06.2024',
+          details: [
+          'Product Development: Supported mobile app and web platform improvements, from product planning to feature implementation',
+          'Project Coordination: Managed tasks, workflows, and deadlines in collaboration with the development team',
+          'UI/UX Collaboration: Contributed to interface design and usability improvements',
+          'Operations & Events: Supported event planning and operational activities',
+          ],
+        }],
+      },
+      {
+        period: '03.2023 – 03.2024',
+        role: 'Architect',
+        place: 'AZ Partners',
+        about: '',
+        details: [
+          'Architectural drawings in ArchiCAD and AutoCAD',
+          'Print design materials',
+          '3D visualisation and post-production in Lumion and Photoshop',
         ],
+      },
+      {
+        period: '6 months',
+        role: 'Interior Design Internship',
+        place: '',
+        about: '',
+        details: ['Worked on interiors for homes and apartments'],
       },
     ],
     education: [
-      { item: "Master's degree in Architecture, University of Architecture, Civil Engineering and Geodesy", note: '2018 – 2024' },
-      { item: '[Recognition: confirm exact wording before publishing]', note: '[Year]' },
-      { item: 'SoftUni Creative: Graphic Design, 3D Visualisation and Modelling, UI/UX Design', note: '2020 – 2023' },
-      { item: 'Telerik Academy Upskill: UI/UX Design', note: '[Year]' },
-      { item: 'SoftUni: JavaScript', note: '[Year]' },
-      { item: 'English C1, Cambridge certificate', note: 'Language' },
+      {
+        item: 'University of Architecture, Civil Engineering and Geodesy',
+        sub: 'Master of Architecture',
+        note: '',
+        about: [
+          "Master's Degree in Architecture, specializing in Public Buildings.",
+          'Graduation project recognized with a Best Project award by the Chamber of Architects in Bulgaria.',
+        ],
+        groups: [
+          {
+            title: 'Architecture & Technical',
+            items: ['Architectural & Interior Design', '3D Visualization', 'Technical Drawing & Documentation', 'Spatial Planning'],
+          },
+          {
+            title: 'Creative & Analytical',
+            items: ['Concept Development', 'Visual Communication', 'Research & Problem Solving'],
+          },
+          { title: 'Project & Management', items: ['Project Planning', 'Team Collaboration'] },
+        ],
+      },
+      { item: 'Mathematics High School "Akad. Nikola Obreshkov", Burgas', sub: 'Specialising in Mathematics and English', note: '' },
+    ],
+    certificates: [
+      {
+        item: 'SoftUni Creative',
+        note: '',
+        groups: [
+          { title: 'Design Fundamentals', items: ['Graphic Design', 'Layout & Composition', 'Typography & Color Theory'] },
+          { title: 'Creative & Technical Skills', items: ['Brand Identity', 'Visual Communication', 'Adobe Creative Cloud'] },
+        ],
+      },
+      {
+        item: 'Telerik Academy Upskill: UI/UX Design',
+        note: '',
+        about: ['Group project: WasteLess, a zero-waste kitchen app for an environmental non-profit.'],
+        groups: [
+          { title: 'Research & Analysis', items: ['User Behavior', 'User Interviews', 'Research Analysis'] },
+          { title: 'Product & Structure', items: ['Business Goals', 'Navigation', 'Content Organization'] },
+          { title: 'Teamwork', items: ['Collaboration in a Team of Four', 'Working with Mentors'] },
+        ],
+      },
+      { item: 'English C1, Cambridge certificate', note: '' },
     ],
     beyond: {
       intro:
@@ -176,7 +251,7 @@ export const site = {
       'Project Management',
       'Teamwork',
     ],
-    // Icons available: fitness, tennis, running, games, drawing, workshops, coffee
+    // Icons available: fitness, tennis, running, games, drawing, workshops, coffee, travel, sea
     interests: [
       { icon: 'fitness', label: 'Fitness' },
       { icon: 'tennis', label: 'Tennis' },
@@ -185,6 +260,8 @@ export const site = {
       { icon: 'drawing', label: 'Drawing' },
       { icon: 'workshops', label: 'All kinds of workshops' },
       { icon: 'coffee', label: 'Coffee lover' },
+      { icon: 'travel', label: 'Traveling' },
+      { icon: 'sea', label: 'Sea lover' },
     ],
   },
 };

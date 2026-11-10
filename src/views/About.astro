@@ -1,6 +1,7 @@
 ---
 import { existsSync } from 'node:fs';
 import Base from '../layouts/Base.astro';
+import EduList from '../components/EduList.astro';
 import Icon from '../components/Icon.astro';
 import Media from '../components/Media.astro';
 import PdfLinks from '../components/PdfLinks.astro';
@@ -13,7 +14,7 @@ const { about } = site;
 const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jpg' : undefined;
 ---
 
-<Base title={ui.about} description={about.intro}>
+<Base title={ui.about} description={about.intro.replaceAll('**', '')}>
   <div class="wrap bento">
     <div class="bento-portrait">
       <Media label="Portrait" ratio="1/1" src={portrait} alt={`${ui.portraitOf} ${site.name}`} eager />
@@ -22,7 +23,9 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
     <header class="tile bento-intro">
       <p class="eyebrow">{site.title}</p>
       <h1 class="about-name">{site.name}</h1>
-      <p class="about-lead">{about.intro}</p>
+      <p class="about-lead">
+        {about.intro.split('**').map((part, index) => (index % 2 ? <strong>{part}</strong> : part))}
+      </p>
       <p class="about-focus">{about.focus}</p>
       <div class="about-links">
         <PdfLinks />
@@ -38,14 +41,25 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
             <summary>
               <span class="fold-heading">
                 <span class="fold-title">{job.role}</span>
-                <span class="meta">{job.place} · {job.period}</span>
+                <span class="meta">{[job.place, job.period].filter(Boolean).join(' · ')}</span>
               </span>
             </summary>
             <div class="fold-body">
               {job.about && <p class="fold-about">{job.about}</p>}
-              <ul class="bullets">
-                {job.details.map((detail) => <li>{detail}</li>)}
-              </ul>
+              {job.details.length > 0 && (
+                <ul class="bullets">
+                  {job.details.map((detail) => <li>{detail}</li>)}
+                </ul>
+              )}
+              {job.roles?.map((role) => (
+                <div class="fold-role">
+                  <h3>{role.title}</h3>
+                  <p class="meta">{role.period}</p>
+                  <ul class="bullets">
+                    {role.details.map((detail) => <li>{detail}</li>)}
+                  </ul>
+                </div>
+              ))}
             </div>
           </details>
         ))}
@@ -54,41 +68,12 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
 
     <section class="tile bento-education" aria-labelledby="education-title">
       <h2 class="tile-title" id="education-title">{ui.education}</h2>
-      <ul class="edu">
-        {about.education.map((row) => (
-          <li><span>{row.item}</span><span class="meta">{row.note}</span></li>
-        ))}
-      </ul>
+      <EduList rows={about.education} />
     </section>
 
-    <section class="tile bento-half" aria-labelledby="story-title">
-      <h2 class="tile-title" id="story-title">{ui.storyTitle}</h2>
-      <div class="folds">
-        {about.story.map((stage) => (
-          <details class="fold">
-            <summary><span class="fold-title">{stage.heading}</span></summary>
-            <div class="fold-body"><p>{stage.text}</p></div>
-          </details>
-        ))}
-      </div>
-    </section>
-
-    <section class="tile bento-half" aria-labelledby="beyond-title">
-      <h2 class="tile-title" id="beyond-title">{ui.beyond}</h2>
-      <p class="fold-about">{about.beyond.intro}</p>
-      <div class="folds">
-        {about.beyond.items.map((item) => (
-          <details class="fold">
-            <summary><span class="fold-title">{item.title}</span></summary>
-            <div class="fold-body"><p>{item.text}</p></div>
-          </details>
-        ))}
-      </div>
-    </section>
-
-    <section class="tile bento-skills" aria-labelledby="tools-title">
-      <h2 class="tile-title" id="tools-title">{ui.tools}</h2>
-      <ul class="tags">{about.tools.map((tool) => <li>{tool}</li>)}</ul>
+    <section class="tile bento-certificates" aria-labelledby="certificates-title">
+      <h2 class="tile-title" id="certificates-title">{ui.certificates}</h2>
+      <EduList rows={about.certificates} />
     </section>
 
     <section class="tile bento-interests" aria-labelledby="interests-title">
@@ -98,6 +83,11 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
           <li><Icon name={interest.icon} />{interest.label}</li>
         ))}
       </ul>
+    </section>
+
+    <section class="tile bento-skills" aria-labelledby="tools-title">
+      <h2 class="tile-title" id="tools-title">{ui.tools}</h2>
+      <ul class="tags">{about.tools.map((tool) => <li>{tool}</li>)}</ul>
     </section>
   </div>
 </Base>

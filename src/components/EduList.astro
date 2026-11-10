@@ -1,0 +1,51 @@
+---
+// Education and certificate rows. A row with `about` or `groups` becomes a dropdown.
+interface Row {
+  item: string;
+  sub?: string;
+  note: string;
+  about?: string[];
+  groups?: { title: string; items: string[] }[];
+}
+
+interface Props {
+  rows: Row[];
+}
+
+const { rows } = Astro.props;
+---
+
+<div class="folds">
+  {rows.map((row) =>
+    row.about || row.groups ? (
+      <details class="fold">
+        <summary>
+          <span class="fold-heading">
+            <span class="fold-title">{row.item}</span>
+            {row.sub && <span class="fold-sub">{row.sub}</span>}
+            {row.note && <span class="meta">{row.note}</span>}
+          </span>
+        </summary>
+        <div class="fold-body">
+          {row.about?.map((text) => <p class="fold-about">{text}</p>)}
+          {row.groups?.map((group) => (
+            <div class="fold-role">
+              <h3>{group.title}</h3>
+              <ul class="bullets bullets-inline">
+                {group.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </details>
+    ) : (
+      <div class="fold fold-static">
+        <span class="fold-heading">
+          <span class="fold-title">{row.item}</span>
+          {row.sub && <span class="fold-sub">{row.sub}</span>}
+          {row.note && <span class="meta">{row.note}</span>}
+        </span>
+      </div>
+    ),
+  )}
+</div>

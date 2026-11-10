@@ -14,6 +14,7 @@ export const artByLabel: Record<string, string> = {
   Poster: 'poster',
   'Editorial spread': 'spread',
   'Cover image': 'rings',
+  Portrait: 'person',
 };
 
 const toneByArt: Record<string, string> = {

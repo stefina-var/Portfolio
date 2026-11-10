@@ -1,5 +1,7 @@
 ---
+import { existsSync } from 'node:fs';
 import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import HeroLine from '../components/HeroLine.astro';
@@ -7,6 +9,8 @@ import { getContent, getLang, l } from '../i18n';
 
 const lang = getLang(Astro.url);
 const { site, projects, articles, ui } = getContent(lang);
+// Add public/images/home-photo.jpg and it replaces the placeholder automatically.
+const photo = existsSync('public/images/home-photo.jpg') ? '/images/home-photo.jpg' : undefined;
 const taglineParts = site.tagline.split(` ${site.taglineAccent} `);
 const featured = projects.filter((p) => p.featured).slice(0, 6);
 const notes = site.journalEnabled ? articles.slice(0, 3) : [];
@@ -14,15 +18,22 @@ const notes = site.journalEnabled ? articles.slice(0, 3) : [];
 
 <Base>
   <section class="hero wrap">
-    <p class="eyebrow">{site.home.eyebrow}</p>
-    <h1>
-      {taglineParts.length === 2 ? (
-        <>{taglineParts[0]} <em>{site.taglineAccent}</em> {taglineParts[1]}</>
-      ) : (
-        site.tagline
-      )}
-    </h1>
-    <p class="descriptor">{site.descriptor}</p>
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">{site.home.eyebrow}</p>
+        <h1>
+          {taglineParts.length === 2 ? (
+            <>{taglineParts[0]} <em>{site.taglineAccent}</em> {taglineParts[1]}</>
+          ) : (
+            site.tagline
+          )}
+        </h1>
+        <p class="descriptor">{site.descriptor}</p>
+      </div>
+      <div class="hero-photo">
+        <Media label="Portrait" ratio="4/3" src={photo} alt={`${ui.portraitOf} ${site.name}`} eager />
+      </div>
+    </div>
     <HeroLine />
     <div class="hero-body">
       <p>{site.home.body}</p>

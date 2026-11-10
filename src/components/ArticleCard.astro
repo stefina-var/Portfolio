@@ -1,6 +1,6 @@
 ---
 import Media from './Media.astro';
-import { getContent, getLang, l, readTime } from '../i18n';
+import { getLang, l } from '../i18n';
 import type { Article } from '../data/journal';
 
 interface Props {
@@ -11,19 +11,12 @@ interface Props {
 
 const { article, headingLevel: Heading = 'h3', variant = 'card' } = Astro.props;
 const lang = getLang(Astro.url);
-const { ui } = getContent(lang);
 const ratio = variant === 'feature' ? '3/2' : '4/3';
 ---
 
 <a class={`card post-${variant}`} href={l(lang, `/journal/${article.slug}`)}>
   <Media label="Cover image" ratio={ratio} src={article.cover} alt={article.coverAlt} />
   <div class="card-info">
-    <div class="card-top">
-      <span>{article.category}</span>
-      {article.date && <span>{article.date}</span>}
-      <span>{readTime(article, ui)}</span>
-      {article.sample && <span class="badge">{ui.sampleEntry}</span>}
-    </div>
     <Heading class="card-title">{article.title}</Heading>
     <p class="card-summary">{article.excerpt}</p>
   </div>

@@ -14,9 +14,13 @@ const MAX_LAST_LINE = 28; // longest ending kept together, in characters
 const TOKENS = /(<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>)/i;
 const OPEN_BLOCK = /^<(p|li|figcaption|dd)[\s>]/i;
 const CLOSE_BLOCK = /^<\/(p|li|figcaption|dd)>/i;
+const INLINE = /^<\/?strong>$/i;
 const SHORT_WORD =
   /(?<=^|[\s(„"“«])(в|във|с|със|и|а|о|у|к|на|за|от|до|по|не|да|но|ще|a|an|i|the|of|to|in|on|at|by|or) +(?=\S)/giu;
 const WORDS = /[\s ]+/;
+
+// House rule: long dashes (— and –) are always shown as a short dash (-).
+const shortenDashes = (text: string) => text.replace(/[—–]/g, '-');
 
 const bindShortWords = (text: string) =>
   text.replace(SHORT_WORD, `$1${NBSP}`).replace(/ +([–—])/g, `${NBSP}$1`);
@@ -60,10 +64,15 @@ function refine(html: string, lang: 'en' | 'bg') {
   const tokens = html.split(TOKENS);
   return tokens
     .map((token, index) => {
-      if (index % 2 === 1 || !token.trim()) return token;
-      const isParagraph = CLOSE_BLOCK.test(tokens[index + 1] ?? '') && OPEN_BLOCK.test(tokens[index - 1] ?? '');
+      if (index % 2 === 1) return /^<(script|style)/i.test(token) ? token : shortenDashes(token);
+      if (!token.trim()) return token;
+      const previous = tokens[index - 1] ?? '';
+      const next = tokens[index + 1] ?? '';
+      const endsBlock = CLOSE_BLOCK.test(next);
+      const isParagraph = (OPEN_BLOCK.test(previous) || INLINE.test(previous)) && (endsBlock || INLINE.test(next));
       const bound = bindShortWords(token);
-      return isParagraph ? hyphenate(keepEnding(bound), lang) : bound;
+      if (!isParagraph) return shortenDashes(bound);
+      return shortenDashes(hyphenate(endsBlock ? keepEnding(bound) : bound, lang));
     })
     .join('');
 }

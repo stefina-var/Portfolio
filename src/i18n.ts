@@ -74,11 +74,9 @@ const en = {
   readJournal: 'Read the Journal',
   journalLead: 'Stories and experiences from outside the portfolio. Other versions of me.',
   keepReading: 'Keep reading',
-  minRead: 'min read',
   journalEmpty: 'Journal is taking shape. The first notes will appear here soon.',
   backJournal: 'Back to Journal',
   filterWork: 'Filter work by discipline',
-  filterJournal: 'Filter Journal by category',
   all: 'All',
   one: 'item',
   many: 'items',
@@ -96,13 +94,18 @@ const en = {
   outcome: 'Outcome and contribution',
   credits: 'Credits',
   visuals: 'Selected visuals',
+  presentation: 'Project presentation',
+  slide: 'Slide',
+  fullscreen: 'Full screen',
+  exitFullscreen: 'Exit full screen',
   moreProjects: 'More projects',
   previous: 'Previous',
   next: 'Next',
   storyTitle: 'The path so far',
   focusTitle: 'Focus and approach',
   experience: 'Experience',
-  education: 'Education and recognition',
+  education: 'Education',
+  certificates: 'Certificates',
   beyond: 'Beyond the studio',
   tools: 'Skills and tools',
   interests: 'Interests',
@@ -150,11 +153,9 @@ const bg: typeof en = {
   readJournal: 'Към Дневника',
   journalLead: 'Истории и преживявания извън портфолиото. Други версии на мен.',
   keepReading: 'Прочетете още',
-  minRead: 'мин. четене',
   journalEmpty: 'Дневникът се оформя. Първите бележки ще се появят тук скоро.',
   backJournal: 'Обратно към Дневника',
   filterWork: 'Филтрирай проектите по дисциплина',
-  filterJournal: 'Филтрирай Дневника по категория',
   all: 'Всички',
   one: 'резултат',
   many: 'резултата',
@@ -172,13 +173,18 @@ const bg: typeof en = {
   outcome: 'Резултат и принос',
   credits: 'Екип',
   visuals: 'Избрани изображения',
+  presentation: 'Презентация на проекта',
+  slide: 'Слайд',
+  fullscreen: 'На цял екран',
+  exitFullscreen: 'Изход от цял екран',
   moreProjects: 'Още проекти',
   previous: 'Предишен',
   next: 'Следващ',
   storyTitle: 'Пътят досега',
   focusTitle: 'Фокус и подход',
   experience: 'Опит',
-  education: 'Образование и признание',
+  education: 'Образование',
+  certificates: 'Сертификати',
   beyond: 'Извън студиото',
   tools: 'Умения и инструменти',
   interests: 'Интереси',
@@ -211,12 +217,6 @@ const bg: typeof en = {
     Portrait: 'портрет',
   },
 };
-
-export function readTime(article: Article, ui: typeof en) {
-  if (article.readingTime) return article.readingTime;
-  const words = article.body.join(' ').split(/\s+/).length;
-  return `${Math.max(1, Math.round(words / 200))} ${ui.minRead}`;
-}
 
 export function getContent(lang: Lang) {
   const localize = <T extends { bg?: object }>(item: T): T =>

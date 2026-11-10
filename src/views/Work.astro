@@ -2,16 +2,15 @@
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import FilterBar from '../components/FilterBar.astro';
-import PdfLinks from '../components/PdfLinks.astro';
 import { getContent, getLang } from '../i18n';
 
 const { projects, site, ui } = getContent(getLang(Astro.url));
-const hasPdfs = site.pdfs.showComingSoon || site.pdfs.items.some((pdf) => pdf.available);
 const options = [
-  { value: 'all', label: ui.all },
   { value: 'architecture', label: ui.filters.architecture },
   { value: 'design', label: ui.filters.design },
 ];
+// Opens on the design projects; ?filter=architecture switches it.
+const initial = 'design';
 ---
 
 <Base title={ui.work} description={ui.featuredTitle}>
@@ -22,19 +21,18 @@ const options = [
         <p class="lead">{ui.workIntro}</p>
         <p class="page-sub">{ui.featuredTitle}</p>
       </header>
-      {hasPdfs && (
-        <aside class="tile work-downloads" aria-labelledby="pdf-title">
-          <h2 class="tile-title" id="pdf-title">{ui.download}</h2>
-          <PdfLinks />
-        </aside>
-      )}
       <div class="work-filters">
-        <FilterBar target="work-list" options={options} label={ui.filterWork} />
+        <FilterBar target="work-list" options={options} label={ui.filterWork} initial={initial} />
+        {options.map((option) => (
+          <ul class="tags skill-pills" data-skills-for={option.value} aria-label={`${ui.tools}: ${option.label}`} hidden={option.value !== initial}>
+            {site.workSkills[option.value as keyof typeof site.workSkills].map((skill) => <li>{skill}</li>)}
+          </ul>
+        ))}
       </div>
     </div>
     <ul class="index-grid" id="work-list">
       {projects.map((project) => (
-        <li data-category={project.category === 'architecture' ? 'architecture' : 'design'}>
+        <li data-category={project.category === 'architecture' ? 'architecture' : 'design'} hidden={(project.category === 'architecture' ? 'architecture' : 'design') !== initial}>
           <ProjectCard project={project} ratio="4/3" headingLevel="h2" />
         </li>
       ))}

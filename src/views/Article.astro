@@ -1,9 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import Carousel from '../components/Carousel.astro';
 import Media from '../components/Media.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import { getContent, getLang, l, readTime } from '../i18n';
+import { getContent, getLang, l } from '../i18n';
 import type { Article } from '../data/journal';
 
 interface Props {
@@ -12,27 +13,36 @@ interface Props {
 
 const { article } = Astro.props;
 const lang = getLang(Astro.url);
-const { articles, ui, site } = getContent(lang);
-const more = articles.filter((a) => a.slug !== article.slug).slice(0, 2);
-const details = [article.date, readTime(article, ui)].filter(Boolean).join(' · ');
+const { articles, ui } = getContent(lang);
+const more = articles.filter((a) => a.slug !== article.slug);
+const GALLERY = '[[gallery]]';
 ---
 
 <Base title={article.title} description={article.excerpt}>
-  <article class="wrap">
+  <div class="wrap article-layout">
+  <article>
     <div class="article page-head">
       <Breadcrumb href={l(lang, '/journal')} label={ui.journal} current={article.category} />
       {article.sample && <p class="badge">{ui.sampleEntryLong}</p>}
       <h1>{article.title}</h1>
-      <p class="meta post-byline">{site.name} · {details}</p>
+      {article.standfirst && <p class="lead post-standfirst">{article.excerpt}</p>}
     </div>
-    <div class="article article-wide">
+    <div class="article">
       <Media label="Cover image" ratio="3/2" src={article.cover} alt={article.coverAlt} eager />
     </div>
     <div class="article article-body prose">
-      {article.body.map((paragraph) => <p>{paragraph}</p>)}
+      {article.body.map((paragraph) =>
+        paragraph === GALLERY ? (
+          <Carousel images={article.images ?? []} />
+        ) : paragraph.startsWith('## ') ? (
+          <h2 class="article-heading">{paragraph.slice(3)}</h2>
+        ) : (
+          <p>{paragraph.split('**').map((part, index) => (index % 2 ? <strong>{part}</strong> : part))}</p>
+        ),
+      )}
     </div>
-    {article.images && article.images.length > 0 && (
-      <div class="article article-wide post-images">
+    {article.images && article.images.length > 0 && !article.body.includes(GALLERY) && (
+      <div class="article post-images">
         {article.images.map((image) => (
           <figure class={image.wide ? 'wide' : undefined}>
             <Media label="Cover image" ratio={image.ratio ?? '3/2'} src={image.src} alt={image.alt} />
@@ -44,18 +54,14 @@ const details = [article.date, readTime(article, ui)].filter(Boolean).join(' · 
   </article>
 
   {more.length > 0 && (
-    <section class="section wrap" aria-labelledby="more-title">
-      <div class="article">
-        <div class="section-head">
-          <h2 id="more-title">{ui.keepReading}</h2>
-          <a class="link" href={l(lang, '/journal')}>{ui.backJournal}</a>
-        </div>
-        <ul class="post-feed">
-          {more.map((item) => (
-            <li><ArticleCard article={item} variant="row" /></li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <aside class="post-aside" aria-labelledby="more-title">
+      <h2 class="tile-title" id="more-title">{ui.keepReading}</h2>
+      <ul class="post-feed">
+        {more.map((item) => (
+          <li><ArticleCard article={item} variant="row" /></li>
+        ))}
+      </ul>
+    </aside>
   )}
+  </div>
 </Base>

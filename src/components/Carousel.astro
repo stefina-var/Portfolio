@@ -1,0 +1,77 @@
+---
+// Horizontal photo gallery: swipe on touch screens, arrows or keyboard elsewhere.
+import Icon from './Icon.astro';
+import Media from './Media.astro';
+import { getContent, getLang } from '../i18n';
+import type { ArticleImage } from '../data/journal';
+
+interface Props {
+  images: ArticleImage[];
+}
+
+const { images } = Astro.props;
+const { ui } = getContent(getLang(Astro.url));
+---
+
+<div class="carousel" data-carousel role="group" aria-label={ui.visuals}>
+  <ul class="carousel-track" tabindex="0" data-track>
+    {images.map((image) => (
+      <li class="carousel-slide" style={`--r:${image.ratio ?? '3/2'}`}>
+        <Media label="Cover image" ratio={image.ratio ?? '3/2'} src={image.src} alt={image.alt} />
+      </li>
+    ))}
+  </ul>
+  <div class="carousel-bar">
+    <span class="meta" data-count>1 / {images.length}</span>
+    <div class="carousel-buttons">
+      <button class="carousel-btn" type="button" data-prev aria-label={ui.previous}><Icon name="back" /></button>
+      <button class="carousel-btn carousel-next" type="button" data-next aria-label={ui.next}><Icon name="back" /></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const count = root.querySelector<HTMLElement>('[data-count]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    if (!track || !count || !prev || !next) return;
+
+    const slides = Array.from(track.children) as HTMLElement[];
+    const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+    const current = () => {
+      let best = 0;
+      slides.forEach((slide, index) => {
+        const distance = Math.abs(slide.offsetLeft - track.offsetLeft - track.scrollLeft);
+        const bestDistance = Math.abs(slides[best].offsetLeft - track.offsetLeft - track.scrollLeft);
+        if (distance < bestDistance) best = index;
+      });
+      return best;
+    };
+
+    function update() {
+      if (!track || !count || !prev || !next) return;
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      const index = atEnd ? slides.length - 1 : current();
+      count.textContent = `${index + 1} / ${slides.length}`;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = atEnd;
+    }
+
+    function go(index: number) {
+      const target = slides[Math.max(0, Math.min(slides.length - 1, index))];
+      track?.scrollTo({ left: target.offsetLeft - track.offsetLeft, behavior: smooth as ScrollBehavior });
+    }
+
+    prev.addEventListener('click', () => go(current() - 1));
+    next.addEventListener('click', () => go(current() + 1));
+    track.addEventListener('scroll', update, { passive: true });
+    track.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') { event.preventDefault(); go(current() + 1); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); go(current() - 1); }
+    });
+    update();
+  });
+</script>
