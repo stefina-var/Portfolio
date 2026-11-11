@@ -26,6 +26,10 @@ const nav = [
   { href: '/journal', label: ui.journal },
 ];
 const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+// The footer invitation: the question stays quiet, the call to action ("Let's connect.") stands out.
+const inviteSplit = site.contact.invitation.lastIndexOf('? ') + 1;
+const inviteAsk = inviteSplit ? site.contact.invitation.slice(0, inviteSplit) : '';
+const inviteCta = site.contact.invitation.slice(inviteSplit).trim();
 ---
 
 <!doctype html>
@@ -56,7 +60,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     <a class="skip" href="#main">{ui.skip}</a>
     <header class="site-header">
       <div class="wrap header-row">
-        <a class="wordmark" href={l(lang, '/')}><img class="wordmark-face" src="/images/avatar.webp" alt="" width="64" height="64" />{site.name}</a>
+        <a class="wordmark" href={l(lang, '/work')}><img class="wordmark-face" src="/images/avatar.webp" alt="" width="64" height="64" />{site.name}</a>
         <nav class="nav no-js-row" id="site-nav" aria-label={ui.mainNav}>
           <ul>
             {nav.map((item) => (
@@ -91,7 +95,6 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
             </div>
           </div>
         </nav>
-        <a class="cta" href={l(lang, '/contact')} aria-current={path === '/contact' ? 'page' : undefined}>{ui.connect}</a>
         <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-menu={ui.menu} data-close={ui.close}>{ui.menu}</button>
       </div>
     </header>
@@ -101,7 +104,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     </main>
 
     <footer class="site-footer wrap">
-      <p class="footer-invite"><a href={l(lang, '/contact')}>{site.contact.invitation}</a></p>
+      <p class="footer-invite"><a href={`mailto:${site.contact.email}`}>{inviteAsk && <>{inviteAsk} </>}<span class="footer-cta">{inviteCta}</span></a></p>
       <div class="footer-grid">
         <div>
           <h2>{ui.footerWork}</h2>

@@ -86,7 +86,7 @@ const tukTamDs = '/images/work/tuk-tam-design-system';
 // WasteLess slides in order: [English description, Bulgarian description].
 const wasteSlide = (i: number) => `/images/work/wasteless/slide-${String(i + 1).padStart(2, '0')}.webp`;
 const wasteSlides: [string, string][] = [
-  ['WasteLess title slide: team The Breakfast Club, Zero-Waste Kitchen app, client an environmental non-profit organisation.', 'Заглавен слайд WasteLess: екип The Breakfast Club, приложение за кухня без отпадъци, клиент екологична неправителствена организация.'],
+  ['WasteLess title slide: team The Breakfast Club, Zero-Waste Kitchen app, client an environmental non-profit organisation, with an illustration and the Recipes and Meal Plan screens.', 'Заглавен слайд WasteLess: екип The Breakfast Club, приложение за кухня без отпадъци, клиент екологична неправителствена организация, с илюстрация и екраните Рецепти и Хранителен план.'],
   ['The team and our mentors.', 'Екипът и менторите ни.'],
   ['UX process: define, research, analyse, design, test.', 'UX процес: дефиниране, проучване, анализ, дизайн, тестване.'],
   ['Who are we: mission and vision.', 'Кои сме ние: мисия и визия.'],
@@ -179,6 +179,20 @@ const sportsSheets: [string, string][] = [
   ['Visualisation of the school entrance.', 'Визуализация на входа на училището.'],
   ['Visualisation of the sports hall entrance.', 'Визуализация на входа на спортната зала.'],
   ['Aerial view and visualisations of the whole complex.', 'Изглед отгоре и визуализации на целия комплекс.'],
+];
+
+// Interior presentation slides in order: [English description, Bulgarian description].
+const interiorSlide = (i: number) => `/images/work/interior-rental-apartments/slide-${String(i + 1).padStart(2, '0')}.webp`;
+const interiorSlides: [string, string][] = [
+  ['Title slide: interior project for rental apartments - one concept, different colour schemes.', 'Заглавен слайд: интериорен проект за апартаменти под наем - една концепция, различни разцветки.'],
+  ['Project and concept: neutral style, different colour schemes, easy maintenance and a sensible budget.', 'Проект и концепция: неутрален стил, различни разцветки, лесна поддръжка и разумен бюджет.'],
+  ['Section 02: visualisations of the same concept in different colour schemes.', 'Раздел 02: визуализации на една и съща концепция в различни разцветки.'],
+  ['Bedroom: a light room with a green accent wall and storage.', 'Спалня: светла стая със зелен акцент на стената и място за съхранение.'],
+  ['Living room open to the kitchen and dining area, with a blue sofa.', 'Хол, отворен към кухнята и трапезарията, със син диван.'],
+  ['Section 03: drawings, shared between the apartments.', 'Раздел 03: чертежи, общи за апартаментите.'],
+  ['Furniture plan and flooring plan.', 'План обзавеждане и план настилки.'],
+  ['Ceiling and electrical plan: lighting, switches and sockets in every room.', 'План софит и електро: осветление, ключове и контакти във всички помещения.'],
+  ['Wall elevations with the furniture, materials and dimensions.', 'Разгъвки на стените с мебелите, материалите и размерите.'],
 ];
 
 const allProjects: Project[] = [
@@ -292,7 +306,7 @@ const allProjects: Project[] = [
     challenge: 'The app had to stand out from the competition, keep people coming back and reach the right audience. We analysed Eat This Much, BigOven and Kitche, **surveyed 100 people** and ran interviews. Our primary users are people aged 18-40 in Sofia - households of all sizes, environmentally conscious, often on a tight budget - who want to organise their kitchen and eating habits.',
     approach: 'We followed the full UX process: define, research, analyse, design and test. From the research we built two personas, Martin and Lidiya, with epics and user stories, prioritised features by impact and effort, ran card sorting and built an **information architecture with five main features and one secondary**.\n\nWe moved from paper prototypes and user flows to lo-fi prototypes and **tested them with users using heatmaps**. The tests led to concrete changes - a calmer home screen, bigger main buttons and collapsible categories in the fridge.\n\nFor the UI we compared four moodboards, tested two colour palettes with users, chose Unbounded and HR Grotesk, and built a brand, icons, illustrations, a 4-point grid and components. A heuristic evaluation refined the final screens for cooking, meal plans, learning, products, profile and eco tips, plus a smartwatch companion and a desktop site.',
     cover: '/images/work/wasteless/cover.webp',
-    coverAlt: 'WasteLess title slide in green with the app icon in five shades',
+    coverAlt: 'WasteLess title slide on a green gradient, with an illustration of a girl dreaming of food and the Recipes and Meal Plan screens',
     deck: wasteSlides.map(([en], i) => ({ src: wasteSlide(i), alt: en })),
     hero: { kind: 'Product screens', ratio: '16/9' },
     gallery: [],
@@ -305,7 +319,7 @@ const allProjects: Project[] = [
       overview: 'WasteLess е финалният екипен проект от програмата Telerik Academy Upskill: UI/UX Design, създаден за екологична неправителствена организация. Мисията му е да **въведе практиките за нулеви отпадъци в българските домакинства** и да насърчи хората да готвят повече у дома, като направи процеса по-лесен и по-вкусен: планиране на храненето, организиране на готвенето и учене за нулевите отпадъци.',
       challenge: 'Приложението трябваше да се отличи от конкуренцията, да задържа потребителите и да достигне до правилната аудитория. Анализирахме Eat This Much, BigOven и Kitche, **анкетирахме 100 души** и проведохме интервюта. Основните ни потребители са хора на 18-40 години в София - домакинства с всякакъв размер, екологично осъзнати, често с ограничен бюджет - които искат да организират кухнята и храненето си.',
       approach: 'Минахме през целия UX процес: дефиниране, проучване, анализ, дизайн и тестване. От проучването изградихме две персони, Мартин и Лидия, с епици и потребителски истории, приоритизирахме функциите по ефект и усилие, направихме сортиране на карти и изградихме **информационна архитектура с пет основни функции и една второстепенна**.\n\nОт хартиени прототипи и потребителски потоци стигнахме до lo-fi прототипи и **ги тествахме с потребители чрез топлинни карти**. Тестовете доведоха до конкретни промени - по-спокоен начален екран, по-големи основни бутони и сгъваеми категории в хладилника.\n\nЗа UI сравнихме четири мудборда, тествахме две цветови палитри с потребители, избрахме Unbounded и HR Grotesk и изградихме бранд, икони, илюстрации, 4-точкова мрежа и компоненти. Евристична оценка прецизира финалните екрани за готвене, хранителни планове, учене, продукти, профил и еко съвети, както и версия за смарт часовник и десктоп сайт.',
-      coverAlt: 'Заглавният слайд на WasteLess в зелено, с иконата на приложението в пет нюанса',
+      coverAlt: 'Заглавният слайд на WasteLess на зелен градиент, с илюстрация на момиче, което мечтае за храна, и екраните Рецепти и Хранителен план',
       deck: wasteSlides.map(([, bg], i) => ({ src: wasteSlide(i), alt: bg })),
     },
   },
@@ -341,6 +355,35 @@ const allProjects: Project[] = [
       approach: 'Предложението е в две фази: първо нова улична мрежа, разнообразни открити площи с тренировъчни игрища и паркоместа; след това възстановяване на старите зали и връщане на стадиона в експлоатация, за да се създаде **една голяма зона за спорт и развлечение в Бургас**.\n\nДве системи подреждат плана: сградите следват уличната мрежа, а игрищата и зелените пространства са в посока север-юг. Училището е съставено от **модули** - учебни помещения, стол и библиотека - свързани с общо пространство, коридори и покривна връзка. Спортната сграда следва същата логика, с големи зали за баскетбол, волейбол и хандбал и за борба и гимнастика, и по-малки зали за физическа подготовка, бокс и кикбокс.\n\nПрограмата включва волейбол, баскетбол, футбол, борба, кикбокс, бокс, гимнастика, лека атлетика и плуване.',
       coverAlt: 'Визуализация на входа на спортното училище в Бургас, с ученици, които вървят към светла остъклена фасада',
       deck: sportsSheets.map(([, bg], i) => ({ src: sportsSheet(i), alt: bg })),
+    },
+  },
+  {
+    slug: 'interior-rental-apartments',
+    sheet: 'A-02',
+    title: 'Interior Design for Rental Apartments',
+    category: 'architecture',
+    disciplines: ['Interior Design', '3D Visualisation', 'Technical Drawings'],
+    summary: 'An interior project for rental apartments in Sofia - one concept, different colour schemes.',
+    featured: false,
+    sample: false,
+    type: 'Professional',
+    overview: 'The project covers several apartments in one building, all meant to be rented out. Every home follows a **shared interior concept**, and each one gets its own colour scheme.',
+    challenge: 'The interior had to be light, neutral and cosy, so it **appeals to as many people as possible**. The solutions also had to be comfortable and functional, with affordable execution and materials that are easy to clean and maintain between tenants.',
+    approach: 'Four principles guide the design: a **neutral style** - a modern, light interior; **different colour schemes** - colour accents on walls, textiles and decor; **easy maintenance** - durable materials that are easy to clean; and a **sensible budget** - affordable and quick to build.\n\nThe visualisations show how the same concept looks in the different colour schemes: a light bedroom with a green accent wall and good storage, and a living room open to the kitchen and dining area, with a soft sofa, colour accents and practical, hard-wearing furniture.\n\nThe drawings are **shared between the apartments**, which makes the build easier and cheaper. They include a furniture plan, a flooring plan, a ceiling and electrical plan with all lighting, switches and sockets, and elevations of every wall with the furniture, materials and dimensions.',
+    cover: '/images/work/interior-rental-apartments/cover.webp',
+    coverAlt: 'Visualisation of a light living room with a blue sofa, open to the kitchen and dining area',
+    deck: interiorSlides.map(([en], i) => ({ src: interiorSlide(i), alt: en })),
+    hero: { kind: 'Render', ratio: '16/9' },
+    gallery: [],
+    bg: {
+      title: 'Интериорен проект за апартаменти под наем',
+      disciplines: ['Интериорен дизайн', '3D визуализация', 'Технически чертежи'],
+      summary: 'Интериорен проект за апартаменти под наем в София - една концепция, различни разцветки.',
+      overview: 'Проектът обхваща няколко апартамента в една сграда, предназначени за отдаване под наем. Всички жилища следват **обща интериорна концепция**, а всяко от тях получава собствена цветова гама.',
+      challenge: 'Интериорът трябваше да е светъл, неутрален и уютен, за да се **хареса на възможно най-много хора**. Решенията трябваше да са удобни и функционални, с достъпно изпълнение и материали, които лесно се почистват и поддържат между наемателите.',
+      approach: 'Четири принципа водят дизайна: **неутрален стил** - модерен и светъл интериор; **различни разцветки** - цветови акценти в стени, текстил и декор; **лесна поддръжка** - здрави материали, лесни за почистване; и **разумен бюджет** - достъпно и бързо изпълнение.\n\nВизуализациите показват как една и съща концепция изглежда в различните разцветки: светла спалня със зелен акцент на стената и удобно място за съхранение, и хол, отворен към кухнята и трапезарията, с мек диван, цветни акценти и практични, издръжливи мебели.\n\nЧертежите са **общи за апартаментите**, което улеснява и поевтинява изпълнението. Те включват план обзавеждане, план настилки, план софит и електро с цялото осветление, ключове и контакти, и разгъвки на всяка стена с мебелите, материалите и размерите.',
+      coverAlt: 'Визуализация на светъл хол със син диван, отворен към кухнята и трапезарията',
+      deck: interiorSlides.map(([, bg], i) => ({ src: interiorSlide(i), alt: bg })),
     },
   },
   {

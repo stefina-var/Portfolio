@@ -1,5 +1,5 @@
 ---
-import View from '../views/Home.astro';
+// No home page: the site opens on Work. Netlify redirects this on the server (netlify.toml);
+// this page is the fallback for local preview and other hosts.
+return Astro.redirect('/work');
 ---
-
-<View />

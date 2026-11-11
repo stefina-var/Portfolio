@@ -81,7 +81,7 @@ export const site = {
   // Skill pills shown under the filters on the Work page.
   workSkills: {
     architecture: ['Architectural Design', 'Interior Design', 'ArchiCAD', 'AutoCAD', 'Lumion', 'Photoshop', '3D Modelling & Rendering', 'InDesign', 'Drawing', 'Composition'],
-    design: ['Branding', 'Figma', 'Claude', 'Adobe Creative Cloud', 'Vibe Coding', 'Higgsfield', 'Visual Communication','Dynamic Banners', 'Email Visuals', 'Video', 'User Research', 'Information Architecture', 'UX/UI', 'Prototyping', 'Design Systems', 'Web Design'],
+    design: ['Branding', 'Figma', 'Claude', 'Adobe Creative Cloud', 'Vibe Coding', 'Higgsfield', 'Visual Communication','Email Visuals', 'Video', 'User Research', 'Information Architecture', 'UX/UI', 'Prototyping', 'Design Systems', 'Web Design'],
   },
 
   about: {

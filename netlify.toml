@@ -1,3 +1,16 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
+# No home page: the site opens on Work.
+[[redirects]]
+  from = "/"
+  to = "/work"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/bg"
+  to = "/bg/work"
+  status = 301
+  force = true

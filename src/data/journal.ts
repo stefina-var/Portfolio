@@ -43,7 +43,7 @@ const utopia = '/images/journal/utopia';
 const calendar = '/images/journal/calendar';
 const photos = '/images/journal/photography';
 
-export const articles: Article[] = [
+const allArticles: Article[] = [
   {
     slug: 'art-and-wine-workshops',
     title: 'The art of leading without taking the brush',
@@ -51,6 +51,8 @@ export const articles: Article[] = [
     excerpt: 'How painting with wine taught me something more than painting.',
     standfirst: true,
     sample: false,
+    cover: '/images/journal/art-and-wine/cover.webp',
+    coverAlt: 'Stefina smiling in front of canvases on easels at a painting workshop, with still lifes of purple cups behind her',
     body: [
       'At first glance, painting with wine is simply a pleasant pastime: a few hours with a glass of wine, a canvas and a brush in your hand. People come to get away from everyday life, to have fun and to make something of their own.',
       'But when you stand on the other side of the easel, you realise the experience is much more than the painting each person takes home.',
@@ -89,6 +91,7 @@ export const articles: Article[] = [
       title: 'Изкуството да водиш, без да отнемаш четката',
       category: art.bg,
       excerpt: 'Как рисуването с вино ме научи на нещо повече от рисуване.',
+      coverAlt: 'Стефина се усмихва пред платна на стативи в ателие за рисуване, зад нея натюрморти с лилави чаши',
       body: [
         'На пръв поглед рисуването с вино е просто приятно занимание — няколко часа с чаша вино, платно и четка в ръка. Хората идват, за да се откъснат от ежедневието, да се забавляват и да създадат нещо свое.',
         'Но когато застанеш от другата страна на статива, разбираш, че преживяването е много повече от картината, която всеки ще отнесе вкъщи.',
@@ -257,6 +260,8 @@ export const articles: Article[] = [
     excerpt: 'On cultural differences and the things that make us surprisingly alike.',
     standfirst: true,
     sample: false,
+    cover: '/images/journal/erasmus/cover.webp',
+    coverAlt: 'Stefina holding her Erasmus+ KA2 Strategic Partnership certificate from Istituto Superiore Larino, next to a fellow participant',
     body: [
       'Taking part in international Erasmus+ projects in Bulgaria, Italy and Greece gave me the chance to meet young people from different corners of Europe, to get to know new cultures and to take part in educational modules on topics such as ecology, sustainable development and mental health.',
       'At first glance everything is different - the language, the food, the music, the way people look, their habits and the way they communicate. Everyone brings with them a piece of the culture they grew up in, and their own ideas about the world.',
@@ -269,6 +274,7 @@ export const articles: Article[] = [
       title: 'Еразъм+: различни светове, еднакви въпроси',
       category: places.bg,
       excerpt: 'За културните различия и нещата, които ни правят изненадващо еднакви.',
+      coverAlt: 'Стефина със сертификата си от проект „Еразъм+“ KA2 Стратегическо партньорство в Istituto Superiore Larino, до друга участничка',
       body: [
         'Участието ми в международни проекти по програма „Еразъм+“ в България, Италия и Гърция ми даде възможност да се срещна с млади хора от различни краища на Европа, да опозная нови култури и да участвам в образователни модули на теми като екология, устойчиво развитие и психично здраве.',
         'На пръв поглед всичко е различно - езикът, храната, музиката, външният вид, навиците и начинът, по който хората общуват. Всеки носи със себе си частица от културата, в която е израснал, и собствените си представи за света.',
@@ -404,3 +410,6 @@ export const articles: Article[] = [
     },
   },
 ];
+
+// Draft posts (sample: true) stay above but are hidden from the site until they are finished.
+export const articles: Article[] = allArticles.filter((article) => !article.sample);
