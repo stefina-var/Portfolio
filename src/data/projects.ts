@@ -195,6 +195,14 @@ const interiorSlides: [string, string][] = [
   ['Wall elevations with the furniture, materials and dimensions.', 'Разгъвки на стените с мебелите, материалите и размерите.'],
 ];
 
+// Krasna Polyana slides in order: [English description, Bulgarian description].
+const krasnaSlide = (i: number) => `/images/work/krasna-polyana/slide-${String(i + 1).padStart(2, '0')}.webp`;
+const krasnaSlides: [string, string][] = [
+  ['Title slide: Krasna Polyana, a new residential quarter with a public centre, with an aerial visualisation.', 'Заглавен слайд: Красна поляна, нов жилищен квартал с обществен център, с визуализация отгоре.'],
+  ['Site analysis: relief, transport, vegetation and property structure.', 'Анализ на територията: релеф, транспорт, растителност и имотна структура.'],
+  ['Design solution: the masterplan with the public centre, a table of land use before and after, and a legend.', 'Проектно решение: генералният план с обществения център, таблица на територията преди и след, и легенда.'],
+];
+
 const allProjects: Project[] = [
   {
     slug: 'tuk-tam',
@@ -384,6 +392,39 @@ const allProjects: Project[] = [
       approach: 'Четири принципа водят дизайна: **неутрален стил** - модерен и светъл интериор; **различни разцветки** - цветови акценти в стени, текстил и декор; **лесна поддръжка** - здрави материали, лесни за почистване; и **разумен бюджет** - достъпно и бързо изпълнение.\n\nВизуализациите показват как една и съща концепция изглежда в различните разцветки: светла спалня със зелен акцент на стената и удобно място за съхранение, и хол, отворен към кухнята и трапезарията, с мек диван, цветни акценти и практични, издръжливи мебели.\n\nЧертежите са **общи за апартаментите**, което улеснява и поевтинява изпълнението. Те включват план обзавеждане, план настилки, план софит и електро с цялото осветление, ключове и контакти, и разгъвки на всяка стена с мебелите, материалите и размерите.',
       coverAlt: 'Визуализация на светъл хол със син диван, отворен към кухнята и трапезарията',
       deck: interiorSlides.map(([, bg], i) => ({ src: interiorSlide(i), alt: bg })),
+    },
+  },
+  {
+    slug: 'krasna-polyana',
+    sheet: 'A-03',
+    title: 'Krasna Polyana Residential Quarter',
+    category: 'architecture',
+    disciplines: ['Urban Planning', 'Masterplan'],
+    summary: 'A new residential quarter with a public centre in Sofia, between Nikola Mushanov Blvd, Zhitnitsa Street and Barite Park.',
+    featured: false,
+    sample: false,
+    type: 'Academic',
+    role: 'Second project, Department of Urban Planning',
+    collaborators: 'Supervisor: Arch. Marieta Grigorova',
+    overview: 'A proposal for a **new residential quarter with a public centre** in Krasna Polyana, Sofia, on the land between Nikola Mushanov Boulevard, Zhitnitsa Street and Barite Park.',
+    challenge: 'The analysis of the site looked at four things. **Relief:** flat terrain that rises to the west, with about 35 m of difference in height - the steeper south-west part suits terraced building. **Transport:** buses 11, 45, 66 and 93 on Nikola Mushanov Blvd and 102 on Zhitnitsa Street link the quarter to all the important parts of the city. **Vegetation:** the tall greenery is in Barite Park, which is neglected today but could become a place people are drawn to, with good care and access. **Property structure:** most plots are over 1200 m², much of it municipal land; the central part is not built up and new housing is needed.',
+    approach: 'The new quarter is organised around a **pedestrian axis and a public centre**. Residential land grows from 25 to 55 ha and public land from 5 to 8.5 ha.\n\nThe public centre brings together offices, a showroom, a shopping centre, a building for culture, a school, a museum, a covered market, a hospital, a kindergarten, a sports centre, a diagnostic and consultation centre, and cafés, restaurants and shops.\n\nIn the new plan residential land rises from 24.8% to 52.2%, public land from 4.8% to 8.2% and sports land from 1% to 2.4%, while streets go from 11.4% to 9.1%, pedestrian areas from 3.8% to 3.7% and green areas from 35.2% to 20.9%.',
+    cover: '/images/work/krasna-polyana/cover.webp',
+    coverAlt: 'Aerial visualisation of the new quarter: rows of residential buildings among trees, a public centre with squares, and Barite Park above',
+    deck: krasnaSlides.map(([en], i) => ({ src: krasnaSlide(i), alt: en })),
+    hero: { kind: 'Masterplan', ratio: '16/9' },
+    gallery: [],
+    bg: {
+      title: 'Жилищен квартал Красна поляна',
+      disciplines: ['Градоустройство', 'Генерален план'],
+      summary: 'Нов жилищен квартал с обществен център в София, между бул. „Никола Мушанов“, ул. „Житница“ и парк „Барите“.',
+      role: 'Втори проект, катедра „Градоустройство“',
+      collaborators: 'Ръководител: арх. Мариета Григорова',
+      overview: 'Проект за **нов жилищен квартал с обществен център** в Красна поляна, София, на територията между бул. „Никола Мушанов“, ул. „Житница“ и парк „Барите“.',
+      challenge: 'Анализът на територията разглежда четири неща. **Релеф:** равнинен терен, който се издига на запад, с денивелация около 35 м - по-стръмната югозападна част е подходяща за терасовидно застрояване. **Транспорт:** автобуси 11, 45, 66 и 93 по бул. „Никола Мушанов“ и 102 по ул. „Житница“ свързват квартала с всички важни части на града. **Растителност:** високата растителност е в парк „Барите“ - днес паркът е занемарен, но с добра поддръжка и достъп може да стане притегателен център. **Имотна структура:** преобладават имоти над 1200 м², голяма част общинска собственост; централната част не е застроена и има нужда от ново жилищно строителство.',
+      approach: 'Новият квартал е организиран около **пешеходна ос и обществен център**. Жилищните територии нарастват от 25 на 55 ha, а обществените - от 5 на 8,5 ha.\n\nОбщественият център събира офиси, шоурум, търговски център, сграда за култура, училище, музей, покрит пазар, болница, детска градина, спортен център, диагностично-консултативен център и кафенета, ресторанти и магазини.\n\nВ новия план жилищните територии нарастват от 24,8% на 52,2%, обществените - от 4,8% на 8,2%, а спортните - от 1% на 2,4%. Улиците намаляват от 11,4% на 9,1%, пешеходните зони от 3,8% на 3,7%, а зелените площи от 35,2% на 20,9%.',
+      coverAlt: 'Визуализация отгоре на новия квартал: редици жилищни сгради сред дървета, обществен център с площади и парк „Барите“ отгоре',
+      deck: krasnaSlides.map(([, bg], i) => ({ src: krasnaSlide(i), alt: bg })),
     },
   },
   {
