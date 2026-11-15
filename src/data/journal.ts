@@ -20,6 +20,8 @@ interface ArticleText {
   category: string;
   excerpt: string;
   coverAlt?: string;
+  /** Focus point when the cover is cropped in lists, e.g. '40% 30%'. */
+  coverPosition?: string;
   body: string[];
   images?: ArticleImage[];
 }
@@ -52,7 +54,8 @@ const allArticles: Article[] = [
     standfirst: true,
     sample: false,
     cover: '/images/journal/art-and-wine/cover.webp',
-    coverAlt: 'Stefina smiling in front of canvases on easels at a painting workshop, with still lifes of purple cups behind her',
+    coverPosition: '40% 30%',
+    coverAlt: 'Stefina leading a painting workshop at Dali Vino, holding a brush beside a sample painting, while guests with wine sit at easels with blank canvases',
     body: [
       'At first glance, painting with wine is simply a pleasant pastime: a few hours with a glass of wine, a canvas and a brush in your hand. People come to get away from everyday life, to have fun and to make something of their own.',
       'But when you stand on the other side of the easel, you realise the experience is much more than the painting each person takes home.',
@@ -91,7 +94,7 @@ const allArticles: Article[] = [
       title: 'Изкуството да водиш, без да отнемаш четката',
       category: art.bg,
       excerpt: 'Как рисуването с вино ме научи на нещо повече от рисуване.',
-      coverAlt: 'Стефина се усмихва пред платна на стативи в ателие за рисуване, зад нея натюрморти с лилави чаши',
+      coverAlt: 'Стефина води работилница по рисуване в Dali Vino, с четка в ръка до примерна картина, а гостите с вино седят пред стативи с празни платна',
       body: [
         'На пръв поглед рисуването с вино е просто приятно занимание — няколко часа с чаша вино, платно и четка в ръка. Хората идват, за да се откъснат от ежедневието, да се забавляват и да създадат нещо свое.',
         'Но когато застанеш от другата страна на статива, разбираш, че преживяването е много повече от картината, която всеки ще отнесе вкъщи.',

@@ -10,16 +10,18 @@ interface Props {
   src?: string;
   alt?: string;
   eager?: boolean;
+  /** CSS object-position for cropped images, e.g. '50% 30%'. */
+  position?: string;
 }
 
-const { label, ratio, src, alt = '', eager = false } = Astro.props;
+const { label, ratio, src, alt = '', eager = false, position } = Astro.props;
 const { ui } = getContent(getLang(Astro.url));
 const style = ratio ? `--r:${ratio}` : undefined;
 ---
 
 <div class="ph" style={style} data-tone={src ? undefined : toneFor(label)}>
   {src ? (
-    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" style={position ? `object-position:${position}` : undefined} />
   ) : (
     <>
       <PlaceholderArt label={label} />

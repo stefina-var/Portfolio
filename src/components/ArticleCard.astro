@@ -15,7 +15,7 @@ const ratio = variant === 'feature' ? '3/2' : '4/3';
 ---
 
 <a class:list={['card', `post-${variant}`, { 'no-cover': !article.cover }]} href={l(lang, `/journal/${article.slug}`)}>
-  {article.cover && <Media label="Cover image" ratio={ratio} src={article.cover} alt={article.coverAlt} />}
+  {article.cover && <Media label="Cover image" ratio={ratio} src={article.cover} alt={article.coverAlt} position={article.coverPosition} />}
   <div class="card-info">
     <Heading class="card-title">{article.title}</Heading>
     <p class="card-summary">{article.excerpt}</p>
