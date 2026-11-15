@@ -6,6 +6,7 @@ interface Props {
   only?: string;
 }
 
+// A PDF without a file still looks like a button; it says "Coming soon" on hover and to screen readers.
 const { only } = Astro.props;
 const { site, ui } = getContent(getLang(Astro.url));
 const items = site.pdfs.items.filter(
@@ -19,14 +20,14 @@ const items = site.pdfs.items.filter(
       <li>
         {pdf.available ? (
           <a class="pdf-btn" href={pdf.file} download>
-            <Icon name="download" />
             <span>{pdf.label}</span>
+            <Icon name="download" />
           </a>
         ) : (
-          <span class="pdf-btn is-soon">
-            <Icon name="download" />
+          <span class="pdf-btn is-soon" title={ui.comingSoon} aria-disabled="true">
             <span>{pdf.label}</span>
-            <span class="pdf-soon">{ui.comingSoon}</span>
+            <Icon name="download" />
+            <span class="sr-only">({ui.comingSoon})</span>
           </span>
         )}
       </li>

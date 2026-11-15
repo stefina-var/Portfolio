@@ -37,6 +37,7 @@ interface ProjectText {
   outcome?: string; // only publish outcomes you can support with facts
   credits?: string;
   coverAlt?: string;
+  externalLink?: { label: string; href: string }; // a site path like '/work' gets the /bg prefix on the Bulgarian site
   deck?: Slide[]; // shown as a presentation in place of the hero image
   gallery: Visual[];
 }
@@ -50,7 +51,6 @@ export interface Project extends ProjectText {
   sample: boolean; // true shows the "Sample content" badge
   type: 'Professional' | 'Academic' | 'Independent';
   year?: string;
-  externalLink?: { label: string; href: string };
   cover?: string;
   deckRatio?: string; // presentation proportions; 16 / 9 when left out
   hero: { kind: string; ratio: string };
@@ -155,31 +155,54 @@ const wasteSlides: [string, string][] = [
 // Diploma sheets in order: [English description, Bulgarian description].
 const sportsSheet = (i: number) => `/images/work/sports-school-burgas/sheet-${String(i + 1).padStart(2, '0')}.webp`;
 const sportsSheets: [string, string][] = [
-  ['Title sheet: Sports School "Yuri Gagarin", Burgas, with an aerial visualisation of the complex.', 'Заглавен лист: Спортно училище „Юрий Гагарин“, Бургас, с визуализация на комплекса.'],
-  ['Project brief: why Burgas needs a new sports school.', 'Задание: защо Бургас има нужда от ново спортно училище.'],
-  ['Location: a map of Burgas and why this site was chosen.', 'Локация: карта на Бургас и защо е избрано това място.'],
-  ['The site from above, with transport connections and nearby stops.', 'Мястото отгоре, с транспортните връзки и близките спирки.'],
-  ['Surroundings: photos of the existing stadium, halls and buildings around the site.', 'Околна среда: снимки на стадиона, залите и сградите около мястото.'],
+  ['Cover: Sports School "Yuri Gagarin", Burgas, with a visualisation of the school.', 'Корица: Спортно училище „Юрий Гагарин“, Бургас, с визуализация на училището.'],
+  ['Project details: author, department, brief and supervisor, with an aerial view of the complex.', 'Проект: изготвил, катедра, задание и ръководител, с изглед отгоре на комплекса.'],
+  ['Introduction: why Burgas needs a new sports school.', 'Въведение: защо Бургас има нужда от ново спортно училище.'],
+  ['Location: a map of Burgas and four reasons for this site - sports history, water nearby, no other sports base, good transport.', 'Локация: карта на Бургас и четири причини за мястото - спортна история, вода наблизо, липса на друга спортна база, добър транспорт.'],
+  ['Surroundings: an axonometric of the site with photos of the existing stadium, halls and buildings.', 'Околна среда: аксонометрия на мястото със снимки на стадиона, залите и сградите наоколо.'],
   ['Proposal in two phases: new streets and training grounds, then restored halls and stadium.', 'Предложение в две фази: нови улици и игрища, после възстановени зали и стадион.'],
   ['Two systems: buildings follow the street grid, fields and green spaces run north-south.', 'Две системи: сградите следват уличната мрежа, игрищата и зелените площи са север-юг.'],
   ['Form-making of the school: modules of classrooms, dining hall and library, joined by shared space and links.', 'Формообразуване на училището: модули с учебни помещения, стол и библиотека, свързани с общо пространство.'],
+  ['Section divider: the school.', 'Раздел: училище.'],
   ['School floor plan, ground level.', 'Разпределение на училището, ниво 0,00.'],
   ['School floor plan, level +3.75.', 'Разпределение на училището, ниво +3,75.'],
   ['School floor plan, level +7.50.', 'Разпределение на училището, ниво +7,50.'],
   ['Section 1-1 through the school.', 'Разрез 1-1 през училището.'],
   ['Section 2-2 with interior visualisations of the shared spaces.', 'Разрез 2-2 с визуализации на общите пространства.'],
   ['Section 3-3 with a visualisation of the dining hall.', 'Разрез 3-3 с визуализация на стола.'],
-  ['Sports in the school programme.', 'Спортовете в програмата на училището.'],
+  ['Section divider: the sports hall.', 'Раздел: спортна зала.'],
+  ['Sports in the school programme and where each one is trained.', 'Спортовете в програмата на училището и къде се тренира всеки.'],
   ['Axonometric of the indoor halls and outdoor grounds for each sport.', 'Аксонометрия на залите и откритите игрища за всеки спорт.'],
-  ['Form-making of the sports building: large and small hall modules.', 'Формообразуване на спортната сграда: модули с големи и малки зали.'],
+  ['Form-making of the sports building: large and small hall modules raised above the plan.', 'Формообразуване на спортната сграда: модули с големи и малки зали, вдигнати над плана.'],
   ['Sports hall plans, levels 0.00 and -4.50.', 'Разпределения на залите, нива 0,00 и -4,50.'],
   ['Sports hall plans, levels 3.90 and 7.70.', 'Разпределения на залите, нива 3,90 и 7,70.'],
   ['Section through the sports hall with visualisations of the halls.', 'Разрез през салона с визуализации на залите.'],
   ['South and north facades.', 'Фасади юг и север.'],
   ['Visualisation of the school entrance.', 'Визуализация на входа на училището.'],
   ['Visualisation of the sports hall entrance.', 'Визуализация на входа на спортната зала.'],
-  ['Aerial view and visualisations of the whole complex.', 'Изглед отгоре и визуализации на целия комплекс.'],
+  ['Visualisation of the school building from the park.', 'Визуализация на сградата на училището от парка.'],
 ];
+
+// Diploma renders for the gallery under the text: [file, width, ratio, English alt, Bulgarian alt].
+const sportsRenders: [string, Visual['width'], string, string, string][] = [
+  ['render-01', 'full', '1672/941', 'Aerial view of the whole complex: the school, the sports hall with green roofs, training grounds and the restored stadium.', 'Изглед отгоре на целия комплекс: училището, спортната зала със зелени покриви, игрищата и възстановеният стадион.'],
+  ['render-02', 'half', '1690/931', 'The school building with its green and white facade, with students walking along a path through the park.', 'Сградата на училището със зелено-бяла фасада и ученици, които вървят по алея през парка.'],
+  ['render-03', 'half', '1688/951', 'Outdoor courts in front of the sports hall with its timber-slatted facade.', 'Открити игрища пред спортната зала с фасада от дървени ламели.'],
+  ['render-04', 'full', '1672/941', 'Street view of the complex: the white school volumes with the sports hall behind them.', 'Изглед от улицата към комплекса: белите обеми на училището със спортната зала зад тях.'],
+  ['render-05', 'half', '1672/941', 'A glazed passage between the buildings, with skylights set into the ground.', 'Остъклен проход между сградите, с капандури в настилката.'],
+  ['render-06', 'half', '1672/941', 'The shared hall of the school: double height, a wide stair with seating and skylights above.', 'Общото пространство на училището: двойна височина, широко стълбище за сядане и капандури отгоре.'],
+  ['render-07', 'half', '1628/966', 'Basketball hall with a timber floor, tiered seating and students playing.', 'Баскетболна зала с дървен под, трибуни и ученици, които играят.'],
+  ['render-08', 'half', '1629/1033', 'The dining hall with a timber ceiling, a stair up to the gallery and large windows to the garden.', 'Столът с дървен таван, стълба към галерията и големи прозорци към градината.'],
+  ['render-09', 'full', '1641/1300', 'Site plan of the school, the sports hall and the stadium.', 'Ситуация на училището, спортната зала и стадиона.'],
+];
+const sportsGallery = (lang: 0 | 1): Visual[] =>
+  sportsRenders.map(([file, width, ratio, en, bg]) => ({
+    kind: file === 'render-09' ? 'Site plan' : 'Render',
+    width,
+    ratio,
+    src: `/images/work/sports-school-burgas/${file}.webp`,
+    alt: lang === 0 ? en : bg,
+  }));
 
 // Interior presentation slides in order: [English description, Bulgarian description].
 const interiorSlide = (i: number) => `/images/work/interior-rental-apartments/slide-${String(i + 1).padStart(2, '0')}.webp`;
@@ -332,6 +355,38 @@ const allProjects: Project[] = [
     },
   },
   {
+    slug: 'this-website',
+    sheet: 'D-05',
+    title: 'This Website',
+    category: 'digital',
+    disciplines: ['Web Design', 'UI/UX', 'Vibe Coding'],
+    summary: 'Yes, the one you are browsing right now. I designed it, so every click here is technically a user test.',
+    featured: true,
+    sample: false,
+    type: 'Independent',
+    year: '2026',
+    role: 'Designer, client and toughest critic',
+    overview: 'A portfolio that is also a portfolio piece. **You are inside the project right now** - feel free to look around. You can\'t get lost. Probably.',
+    approach: 'One site for two worlds - architecture and digital design - so the brief was simple: different disciplines, one design mindset.\n\nIt speaks **English and Bulgarian**, has a light and a dark mode, filters work by discipline, flips through presentations like slides and keeps a Journal for everything outside the portfolio.\n\nI made the design decisions and Claude wrote the code - and learned along the way that this designer only uses short dashes.',
+    outcome: 'If you are reading this, it works.',
+    externalLink: { label: 'Open the live project (spoiler: you are already here)', href: '/work' },
+    cover: '/images/work/this-website/cover.webp',
+    coverAlt: 'This portfolio\'s Work page in a browser window on a blue gradient, with a "You are here" tag above it',
+    hero: { kind: 'Website', ratio: '16/10' },
+    gallery: [],
+    bg: {
+      title: 'Този сайт',
+      disciplines: ['Уеб дизайн', 'UI/UX', 'Vibe Coding'],
+      summary: 'Да, точно този, който разглеждате в момента. Аз съм го проектирала, така че всеки клик тук технически е тест с потребител.',
+      role: 'Дизайнер, клиент и най-строгият критик',
+      overview: 'Портфолио, което е и проект в портфолиото. **В момента сте вътре в проекта** - разгледайте спокойно. Няма как да се изгубите. Вероятно.',
+      approach: 'Един сайт за два свята - архитектура и дигитален дизайн - така че заданието беше просто: различни дисциплини, един начин на мислене.\n\nГовори **английски и български**, има светла и тъмна тема, филтрира проектите по дисциплина, прелиства презентации като слайдове и пази Дневник за всичко извън портфолиото.\n\nАз взех дизайн решенията, а Claude написа кода - и по пътя научи, че този дизайнер използва само къси тирета.',
+      outcome: 'Ако четете това, значи работи.',
+      externalLink: { label: 'Отвори проекта на живо (спойлер: вече сте тук)', href: '/work' },
+      coverAlt: 'Страницата с проекти на това портфолио в прозорец на браузър върху син градиент, с надпис „You are here“ над него',
+    },
+  },
+  {
     slug: 'sports-school-burgas',
     sheet: 'A-01',
     title: 'Sports School "Yuri Gagarin", Burgas',
@@ -346,12 +401,12 @@ const allProjects: Project[] = [
     overview: 'The sports school in Burgas badly needs a new base - a building for the students, as well as sports facilities for indoor and outdoor training. The project is planned under the "Integrated Territorial Investment Concepts" procedure of the "Regional Development 2021-2027" programme, with the involvement of local authorities, civil society and many sports clubs.',
     challenge: 'The site has been associated with sport since 1954, when the Chernomorets stadium was built, together with training grounds, halls and a rehabilitation centre. It is close to the sea, Lake Vaya and the city\'s rowing base, near the centre, and well connected - two stops served by all the main transport lines are next to it. There are no other sports facilities in the area.',
     approach: 'The proposal works in two phases: first, a new street network, varied open spaces with training grounds and parking; then, restoring the old halls and bringing the stadium back into use, creating **one large area for sport and leisure in Burgas**.\n\nTwo systems organise the plan: the buildings follow the street grid, while the fields and green spaces run north-south. The school is composed of **modules** - classrooms, dining hall and library - joined by a shared space, corridors and a roof link. The sports building follows the same logic, with large halls for basketball, volleyball and handball and for wrestling and gymnastics, and smaller halls for fitness, boxing and kickboxing.\n\nThe programme covers volleyball, basketball, football, wrestling, kickboxing, boxing, gymnastics, athletics and swimming.',
-    cover: '/images/work/sports-school-burgas/cover.webp',
-    coverAlt: 'Visualisation of the entrance to the sports school in Burgas, with students walking towards a light, glazed facade',
+    cover: '/images/work/sports-school-burgas/render-02.webp',
+    coverAlt: 'The sports school in Burgas: the school building with its green and white facade, with students walking along a path through the park',
     deckRatio: '1191 / 842',
     deck: sportsSheets.map(([en], i) => ({ src: sportsSheet(i), alt: en })),
     hero: { kind: 'Render', ratio: '16/9' },
-    gallery: [],
+    gallery: sportsGallery(0),
     bg: {
       title: 'Спортно училище „Юрий Гагарин“, Бургас',
       disciplines: ['Архитектура', 'Обществени сгради'],
@@ -361,8 +416,9 @@ const allProjects: Project[] = [
       overview: 'Спортното училище в Бургас има голяма нужда от нова база - сграда за учениците, но и спортни съоръжения за тренировки на открито и закрито. Проектът е предвиден по процедура „Концепции за интегрирани териториални инвестиции“ на ОП „Развитие на регионите 2021-2027“, с участието на местната власт, гражданското общество и много спортни клубове.',
       challenge: 'Районът се асоциира със спорт от 1954 г., когато е построен стадион „Черноморец“, а около него - тренировъчни игрища, зали и рехабилитационен център. Мястото е близо до морето, езерото Вая и гребната база на града, до центъра, и е лесно достъпно - в непосредствена близост има две спирки на всички главни транспортни линии. В района няма други спортни съоръжения.',
       approach: 'Предложението е в две фази: първо нова улична мрежа, разнообразни открити площи с тренировъчни игрища и паркоместа; след това възстановяване на старите зали и връщане на стадиона в експлоатация, за да се създаде **една голяма зона за спорт и развлечение в Бургас**.\n\nДве системи подреждат плана: сградите следват уличната мрежа, а игрищата и зелените пространства са в посока север-юг. Училището е съставено от **модули** - учебни помещения, стол и библиотека - свързани с общо пространство, коридори и покривна връзка. Спортната сграда следва същата логика, с големи зали за баскетбол, волейбол и хандбал и за борба и гимнастика, и по-малки зали за физическа подготовка, бокс и кикбокс.\n\nПрограмата включва волейбол, баскетбол, футбол, борба, кикбокс, бокс, гимнастика, лека атлетика и плуване.',
-      coverAlt: 'Визуализация на входа на спортното училище в Бургас, с ученици, които вървят към светла остъклена фасада',
+      coverAlt: 'Спортното училище в Бургас: сградата на училището със зелено-бяла фасада и ученици, които вървят по алея през парка',
       deck: sportsSheets.map(([, bg], i) => ({ src: sportsSheet(i), alt: bg })),
+      gallery: sportsGallery(1),
     },
   },
   {

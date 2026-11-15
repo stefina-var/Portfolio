@@ -294,13 +294,13 @@ article[class^='t-'] .page-title { font-size: clamp(2.25rem, 4.5vw, 3.75rem); }
 .filter-status { margin-block: 0.6rem clamp(1rem, 2vw, 1.5rem); }
 
 /* PDF and contact links */
-.pdfs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 0.5rem; }
-.pdf-btn { display: flex; align-items: center; gap: 0.6rem; height: 100%; min-height: 3.25rem; padding: 0.5rem 1.25rem; border-radius: var(--pill); background: var(--spot-fill); color: var(--on-spot); font-size: 0.9375rem; font-weight: 500; line-height: 1.25; text-decoration: none; transition: background 0.25s, color 0.25s; }
+/* Compact solid buttons: label, then the download icon on the right */
+.pdfs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pdf-btn { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0.45rem 1rem 0.45rem 1.15rem; border-radius: var(--pill); background: var(--spot-fill); color: var(--on-spot); font-size: 0.875rem; font-weight: 600; line-height: 1.2; text-decoration: none; transition: background 0.25s, color 0.25s; }
 a.pdf-btn:hover { background: var(--ink); color: var(--bg); }
-.pdf-btn .icon { width: 1.25rem; height: 1.25rem; }
-.pdf-btn.is-soon { background: transparent; border: 1px solid var(--line); color: var(--muted); font-weight: 400; }
+.pdf-btn .icon { width: 1.1rem; height: 1.1rem; flex: none; }
+.pdf-btn.is-soon { cursor: default; }
 .pdf-btn > span { min-width: 0; }
-.pdf-btn > .pdf-soon { margin-left: auto; flex: none; white-space: nowrap; font-family: var(--mono); font-size: 0.6875rem; }
 .contact-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.5rem; }
 .contact-links li { min-width: 0; max-width: 100%; }
 .contact-links .link { gap: 0.45rem; max-width: 100%; overflow-wrap: anywhere; }
@@ -418,6 +418,8 @@ h1.about-name { font-size: clamp(2.5rem, 6vw, 4.75rem); line-height: 1; letter-s
 .interests .icon { color: var(--accent); }
 .stack { display: grid; gap: 1.75rem; }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.skill-groups { display: grid; gap: 1.25rem; }
+.skill-group-title { margin-bottom: 0.55rem; font-family: var(--mono, monospace); font-size: 0.8125rem; font-weight: 400; color: var(--accent); }
 .tags li { border: 1px solid var(--line); padding: 0.25rem 0.65rem; font-size: 0.9375rem; }
 
 /* Blog feed */
@@ -511,11 +513,28 @@ h1.about-name { font-size: clamp(2.5rem, 6vw, 4.75rem); line-height: 1; letter-s
 .footer-cta { color: #ffffff; font-weight: 700; white-space: nowrap; text-decoration: underline; text-decoration-thickness: 0.08em; text-underline-offset: 0.14em; transition: text-underline-offset 0.2s var(--ease); }
 .footer-invite a:hover .footer-cta { color: #ffffff; text-underline-offset: 0.24em; }
 .footer-invite a:hover { color: var(--accent); }
-.footer-grid { display: grid; gap: 1.5rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); }
-@media (min-width: 760px) { .footer-grid { grid-template-columns: repeat(3, 1fr); column-gap: var(--gap); } }
-.footer-grid h2 { margin-bottom: 0.6rem; }
-.site-footer .link::after { content: none; }
-.footer-bottom { margin-top: 1.5rem; }
+/* After a click, the email and a copy button take the place of "Let's connect." */
+.footer-cta { display: inline-block; }
+.footer-cta.is-email { font-size: 0.62em; white-space: normal; overflow-wrap: anywhere; }
+.invite-copy {
+  display: inline-flex; align-items: center; margin-left: 0.6rem; vertical-align: middle;
+  font: 600 0.9375rem/1 var(--sans, inherit); letter-spacing: 0; color: #1d1d1f;
+  background: #ffffff; border: 0; border-radius: 999px; padding: 0.6rem 1rem; cursor: pointer;
+}
+.invite-copy[hidden] { display: none; }
+@media (max-width: 599px) {
+  .footer-cta.is-email { display: block; margin-top: 0.35rem; }
+  .invite-copy { margin: 0.9rem 0 0; min-height: 44px; padding-inline: 1.2rem; }
+}
+.invite-copy:hover { background: #eef4ff; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* One line of links under the invitation, then the small print */
+.footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); font-size: 1.0625rem; }
+.footer-links a, .footer-place { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; }
+.footer-links .icon { color: #ffffff; }
+.footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: 1rem; border-top: 1px solid var(--line); }
+.footer-bottom a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.2em; }
+.footer-bottom a:hover { text-decoration-color: currentColor; }
 
 /* Shape: soft corners, pills and a frosted header */
 .button, .cta, .badge, .prefs-btn, .filters button, .tags li { border-radius: var(--pill); }

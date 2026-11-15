@@ -86,7 +86,14 @@ const portrait = existsSync('public/images/portrait.jpg') ? '/images/portrait.jp
 
     <section class="tile bento-skills" aria-labelledby="tools-title">
       <h2 class="tile-title" id="tools-title">{ui.tools}</h2>
-      <ul class="tags">{about.tools.map((tool) => <li>{tool}</li>)}</ul>
+      <div class="skill-groups">
+        {about.tools.map((group) => (
+          <div class="skill-group">
+            <h3 class="skill-group-title">{group.title}</h3>
+            <ul class="tags">{group.items.map((tool) => <li>{tool}</li>)}</ul>
+          </div>
+        ))}
+      </div>
     </section>
   </div>
 </Base>

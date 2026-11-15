@@ -74,7 +74,7 @@ const paragraphs = (text: string) =>
         </section>
       ))}
       {project.externalLink && (
-        <p><a class="link" href={project.externalLink.href}>{project.externalLink.label}</a></p>
+        <p><a class="link" href={project.externalLink.href.startsWith('/') ? l(lang, project.externalLink.href) : project.externalLink.href}>{project.externalLink.label}</a></p>
       )}
     </div>
 

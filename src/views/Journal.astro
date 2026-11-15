@@ -15,9 +15,9 @@ const visible = site.journalEnabled ? articles : [];
     </header>
     {visible.length > 0 ? (
       <ul class="post-feed">
-        {visible.map((article, index) => (
+        {visible.map((article) => (
           <li>
-            <ArticleCard article={article} headingLevel="h2" variant={index === 0 ? 'feature' : 'row'} />
+            <ArticleCard article={article} headingLevel="h2" variant="row" />
           </li>
         ))}
       </ul>
