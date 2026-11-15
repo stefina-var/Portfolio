@@ -256,6 +256,11 @@ article[class^='t-'] .page-title { font-size: clamp(2.25rem, 4.5vw, 3.75rem); }
 .post-feature.no-cover { display: block; }
 .card-top { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
 .card-sheet { color: var(--accent); }
+.pills { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+.pill { display: inline-flex; align-items: center; padding: 0.2rem 0.65rem; border-radius: 999px; background: var(--paper); color: var(--muted); font-size: 0.75rem; line-height: 1.4; white-space: nowrap; }
+.pill-year { background: var(--accent); color: #fff; }
+.pills-tools { margin-top: 0.75rem; }
+.pill-tool { background: transparent; border: 1px solid var(--line); }
 .card-title { font-size: clamp(1.25rem, 1.7vw, 1.5rem); line-height: 1.1; font-weight: 380; letter-spacing: -0.015em; transition: color 0.25s; }
 .card-summary { color: var(--muted); font-size: 0.9375rem; }
 

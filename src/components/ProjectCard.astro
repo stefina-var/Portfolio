@@ -11,19 +11,23 @@ interface Props {
 
 const { project, ratio, headingLevel: Heading = 'h3' } = Astro.props;
 const lang = getLang(Astro.url);
-const { site, ui } = getContent(lang);
+const { ui } = getContent(lang);
 ---
 
 <a class="card" href={l(lang, `/work/${project.slug}`)}>
   <Media label={project.hero.kind} ratio={ratio} src={project.cover} alt={project.coverAlt} />
   <div class="card-info">
-    <div class="card-top">
-      {site.showSheetNumbers && <span class="card-sheet">{project.sheet}</span>}
-      <span>{project.disciplines.join(', ')}</span>
-      {project.year && <span>{project.year}</span>}
-      {project.sample && <span class="badge">{ui.sample}</span>}
-    </div>
+    <ul class="pills" aria-label={ui.projectInfo}>
+      {project.year && <li class="pill pill-year">{project.year}</li>}
+      {project.disciplines.map((d) => <li class="pill">{d}</li>)}
+      {project.sample && <li class="badge">{ui.sample}</li>}
+    </ul>
     <Heading class="card-title">{project.title}</Heading>
     <p class="card-summary">{project.summary}</p>
+    {project.tools?.length ? (
+      <ul class="pills pills-tools" aria-label={ui.toolsUsed}>
+        {project.tools.map((t) => <li class="pill pill-tool">{t}</li>)}
+      </ul>
+    ) : null}
   </div>
 </a>

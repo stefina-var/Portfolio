@@ -51,6 +51,7 @@ export interface Project extends ProjectText {
   sample: boolean; // true shows the "Sample content" badge
   type: 'Professional' | 'Academic' | 'Independent';
   year?: string;
+  tools?: string[]; // main tools, shown as pills on the card
   cover?: string;
   deckRatio?: string; // presentation proportions; 16 / 9 when left out
   hero: { kind: string; ratio: string };
@@ -237,6 +238,7 @@ const allProjects: Project[] = [
     featured: true,
     sample: false,
     type: 'Professional',
+    tools: ['Figma', 'FigJam'],
     year: '2024',
     role: 'Product Designer',
     overview: 'Tuk-Tam is a mobile app where people share their goals, find buddies who can help, meet over a coffee and follow the community\'s events, clubs and companies. After the official launch, my task was to make the app simpler and to put its core feature - swiping goals - at the centre.',
@@ -295,6 +297,7 @@ const allProjects: Project[] = [
     featured: true,
     sample: false,
     type: 'Professional',
+    tools: ['Figma'],
     year: '2024',
     role: 'Product Designer',
     overview: 'As part of my quarterly objectives, I developed a complete design system for the Tuk-Tam mobile app.',
@@ -331,6 +334,7 @@ const allProjects: Project[] = [
     featured: true,
     sample: false,
     type: 'Academic',
+    tools: ['Figma'],
     role: 'UX/UI Designer in a team of four',
     collaborators: 'The Breakfast Club: Natalia Hristova, Zahari Dimitrov, Zdravka Stoyanova. Mentors: Anna-Mariya Georgieva, Vladimir Valev',
     overview: 'WasteLess is the final group project of the Telerik Academy Upskill UI/UX Design programme, made for an environmental non-profit organisation. Its mission is to **bring zero-waste practices into Bulgarian households** and to get people cooking at home more, by making the process easier and tastier: planning meals, organising cooking and learning about zero waste.',
@@ -364,6 +368,7 @@ const allProjects: Project[] = [
     featured: true,
     sample: false,
     type: 'Independent',
+    tools: ['Claude', 'Astro', 'Netlify'],
     year: '2026',
     role: 'Designer, client and toughest critic',
     overview: 'A portfolio that is also a portfolio piece. **You are inside the project right now** - feel free to look around. You can\'t get lost. Probably.',
@@ -396,6 +401,7 @@ const allProjects: Project[] = [
     featured: true,
     sample: false,
     type: 'Academic',
+    tools: ['ArchiCAD', 'Lumion', 'Photoshop', 'InDesign'],
     role: 'Diploma project, Department of Public Buildings',
     collaborators: 'Supervisor: Arch. Rositsa Bratkova',
     overview: 'The sports school in Burgas badly needs a new base - a building for the students, as well as sports facilities for indoor and outdoor training. The project is planned under the "Integrated Territorial Investment Concepts" procedure of the "Regional Development 2021-2027" programme, with the involvement of local authorities, civil society and many sports clubs.',
@@ -431,6 +437,7 @@ const allProjects: Project[] = [
     featured: false,
     sample: false,
     type: 'Professional',
+    tools: ['ArchiCAD', 'Lumion', 'Photoshop'],
     overview: 'The project covers several apartments in one building, all meant to be rented out. Every home follows a **shared interior concept**, and each one gets its own colour scheme.',
     challenge: 'The interior had to be light, neutral and cosy, so it **appeals to as many people as possible**. The solutions also had to be comfortable and functional, with affordable execution and materials that are easy to clean and maintain between tenants.',
     approach: 'Four principles guide the design: a **neutral style** - a modern, light interior; **different colour schemes** - colour accents on walls, textiles and decor; **easy maintenance** - durable materials that are easy to clean; and a **sensible budget** - affordable and quick to build.\n\nThe visualisations show how the same concept looks in the different colour schemes: a light bedroom with a green accent wall and good storage, and a living room open to the kitchen and dining area, with a soft sofa, colour accents and practical, hard-wearing furniture.\n\nThe drawings are **shared between the apartments**, which makes the build easier and cheaper. They include a furniture plan, a flooring plan, a ceiling and electrical plan with all lighting, switches and sockets, and elevations of every wall with the furniture, materials and dimensions.',
@@ -460,6 +467,7 @@ const allProjects: Project[] = [
     featured: false,
     sample: false,
     type: 'Academic',
+    tools: ['AutoCAD', 'Photoshop', 'InDesign'],
     role: 'Second project, Department of Urban Planning',
     collaborators: 'Supervisor: Arch. Marieta Grigorova',
     overview: 'A proposal for a **new residential quarter with a public centre** in Krasna Polyana, Sofia, on the land between Nikola Mushanov Boulevard, Zhitnitsa Street and Barite Park.',

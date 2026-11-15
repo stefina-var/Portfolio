@@ -51,10 +51,54 @@ const inviteCta = site.contact.invitation.slice(inviteSplit).trim();
         }
         document.documentElement.dataset.theme = theme;
         document.documentElement.classList.add('js');
+        var ok;
+        try { ok = localStorage.getItem('site-unlocked') === '1'; } catch (e) {}
+        if (!ok) document.documentElement.classList.add('locked');
       })();
     </script>
+    <style is:inline>
+      /* Simple password screen. It keeps casual visitors out; it is not real security. */
+      html.locked body > :not(.gate) { display: none !important; }
+      .gate { display: none; }
+      html.locked .gate { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 1rem; background: var(--bg, #f4f4f6); }
+      .gate form { width: min(100%, 22rem); display: grid; gap: 0.75rem; padding: 2rem; border-radius: 1.5rem; background: var(--paper, #fff); }
+      .gate h1 { font-size: 1.75rem; margin: 0; }
+      .gate p { margin: 0; color: var(--muted, #666); }
+      .gate input { font: inherit; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 1px solid rgba(128,128,128,0.4); background: transparent; color: inherit; }
+      .gate button { font: inherit; padding: 0.75rem 1rem; border: 0; border-radius: 999px; background: var(--accent, #2f7cf6); color: #fff; cursor: pointer; }
+      .gate .gate-error { color: #c0392b; min-height: 1.25em; }
+    </style>
   </head>
   <body>
+    <div class="gate">
+      <form id="gate-form" autocomplete="off">
+        <h1>{lang === 'bg' ? 'Вход' : 'Sign in'}</h1>
+        <p>{lang === 'bg' ? 'Това портфолио е защитено с парола.' : 'This portfolio is password protected.'}</p>
+        <label class="sr-only" for="gate-pass">{lang === 'bg' ? 'Парола' : 'Password'}</label>
+        <input id="gate-pass" type="password" placeholder={lang === 'bg' ? 'Парола' : 'Password'} required />
+        <button type="submit">{lang === 'bg' ? 'Влез' : 'Enter'}</button>
+        <p class="gate-error" id="gate-error" aria-live="polite"></p>
+      </form>
+    </div>
+    <script is:inline define:vars={{ wrong: lang === 'bg' ? 'Грешна парола' : 'Wrong password' }}>
+      (function () {
+        var HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+        var form = document.getElementById('gate-form');
+        if (!form) return;
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          var value = document.getElementById('gate-pass').value;
+          var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+          var hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+          if (hex === HASH) {
+            try { localStorage.setItem('site-unlocked', '1'); } catch (err) {}
+            document.documentElement.classList.remove('locked');
+          } else {
+            document.getElementById('gate-error').textContent = wrong;
+          }
+        });
+      })();
+    </script>
     <a class="skip" href="#main">{ui.skip}</a>
     <header class="site-header">
       <div class="wrap header-row">
