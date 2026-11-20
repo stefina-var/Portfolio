@@ -161,7 +161,7 @@ const sportsSheets: [string, string][] = [
   ['Introduction: why Burgas needs a new sports school.', 'Въведение: защо Бургас има нужда от ново спортно училище.'],
   ['Location: a map of Burgas and four reasons for this site - sports history, water nearby, no other sports base, good transport.', 'Локация: карта на Бургас и четири причини за мястото - спортна история, вода наблизо, липса на друга спортна база, добър транспорт.'],
   ['Surroundings: an axonometric of the site with photos of the existing stadium, halls and buildings.', 'Околна среда: аксонометрия на мястото със снимки на стадиона, залите и сградите наоколо.'],
-  ['Proposal in two phases: new streets and training grounds, then restored halls and stadium.', 'Предложение в две фази: нови улици и игрища, после възстановени зали и стадион.'],
+  ['Proposal in two phases, on a site plan: phase 1 is the new complex with streets, training grounds and parking; phase 2 restores the old halls and the stadium.', 'Предложение в две фази върху ситуацията: фаза 1 е новият комплекс с улици, игрища и паркинг, фаза 2 възстановява старите зали и стадиона.'],
   ['Two systems: buildings follow the street grid, fields and green spaces run north-south.', 'Две системи: сградите следват уличната мрежа, игрищата и зелените площи са север-юг.'],
   ['Form-making of the school: modules of classrooms, dining hall and library, joined by shared space and links.', 'Формообразуване на училището: модули с учебни помещения, стол и библиотека, свързани с общо пространство.'],
   ['Section divider: the school.', 'Раздел: училище.'],
