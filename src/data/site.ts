@@ -26,7 +26,7 @@ export const site = {
   // When a PDF is ready: put it in public/pdfs/ and set available to true.
   // Set showComingSoon to false to hide unavailable PDFs entirely.
   pdfs: {
-    showComingSoon: true,
+    showComingSoon: false,
     items: [
       {
         key: 'architecture',
@@ -80,8 +80,8 @@ export const site = {
 
   // Skill pills shown under the filters on the Work page.
   workSkills: {
-    architecture: ['Architectural Design', 'Interior Design', 'ArchiCAD', 'AutoCAD', 'Lumion', 'Photoshop', '3D Modelling & Rendering', 'InDesign', 'Drawing', 'Composition'],
-    design: ['Branding', 'Figma', 'Claude', 'Adobe Creative Cloud', 'Vibe Coding', 'Higgsfield', 'Visual Communication','Email Visuals', 'Video', 'User Research', 'Information Architecture', 'UX/UI', 'Prototyping', 'Design Systems', 'Web Design'],
+    architecture: ['Architectural Design', 'Interior Design', '3D Visualization', 'Drawing & Composition', 'ArchiCAD', 'AutoCAD', 'Lumion', 'Adobe Creative Cloud'],
+    design: ['Branding', 'Visual Communication', 'UX/UI', 'User Research', 'Prototyping', 'Design Systems', 'Web Design', 'CRM Email Design', 'Dynamic Banners', 'Figma', 'Adobe Creative Cloud', 'AI Tools'],
   },
 
   about: {
@@ -230,8 +230,8 @@ export const site = {
     },
     // Skills in two groups, so each side is easy to scan.
     tools: [
-      { title: 'Architecture', items: ['Architectural Design', 'Interior Design', 'ArchiCAD', 'AutoCAD', 'Lumion', 'Photoshop', '3D Modelling & Rendering', 'InDesign', 'Drawing', 'Composition'] },
-      { title: 'Digital & Visual Design', items: ['Branding', 'Figma', 'Claude', 'Adobe Creative Cloud', 'Vibe Coding', 'Higgsfield', 'Visual Communication', 'Email Visuals', 'Video', 'User Research', 'Information Architecture', 'UX/UI', 'Prototyping', 'Design Systems', 'Web Design', 'User Interviews', 'Photoshop', 'Illustrator', 'ChatGPT', 'Project Management', 'Teamwork'] },
+      { title: 'Architecture', items: ['Architectural Design', 'Interior Design', '3D Visualization', 'Drawing & Composition', 'ArchiCAD', 'AutoCAD', 'Lumion', 'Adobe Creative Cloud'] },
+      { title: 'Digital & Visual Design', items: ['Branding', 'Visual Communication', 'UX/UI', 'User Research', 'Prototyping', 'Design Systems', 'Web Design', 'CRM Email Design', 'Dynamic Banners', 'Figma', 'Adobe Creative Cloud', 'AI Tools'] },
     ],
     // Icons available: fitness, tennis, running, games, drawing, workshops, coffee, travel, sea
     interests: [

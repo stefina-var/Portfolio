@@ -6,8 +6,8 @@ import { getContent, getLang } from '../i18n';
 
 const { projects, site, ui } = getContent(getLang(Astro.url));
 const options = [
-  { value: 'architecture', label: ui.filters.architecture },
   { value: 'design', label: ui.filters.design },
+  { value: 'architecture', label: ui.filters.architecture },
 ];
 // Opens on the design projects; ?filter=architecture switches it.
 const initial = 'design';
